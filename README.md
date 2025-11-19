@@ -1,163 +1,304 @@
 # ORCID Manager
 
-Aplicación web para gestionar búsquedas de ORCIDs de investigadores de forma eficiente.
+**Aplicación web completa para gestionar búsquedas de ORCIDs de investigadores**
 
-## Características
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-1.0.0--rc2-blue.svg)](https://github.com/vtomasv/ORCIDSearcher/releases)
 
-- **Subida de Excel**: Carga archivos Excel con listas de investigadores
-- **Búsqueda Automática**: Busca ORCIDs usando múltiples estrategias (nombres normalizados, variantes de instituciones)
-- **Dashboard en Tiempo Real**: Visualiza el progreso de las búsquedas
-- **Revisión Manual**: Decide manualmente en casos con 0 o múltiples resultados
-- **Exportación**: Descarga Excel con todos los ORCIDs encontrados
+## 📋 Descripción
 
-## Tecnologías
+ORCID Manager es una aplicación web moderna que facilita la búsqueda y gestión de ORCIDs (Open Researcher and Contributor ID) para investigadores. Permite subir archivos Excel con datos de investigadores y buscar automáticamente sus ORCIDs en la base de datos de ORCID.org.
 
-- **Frontend**: React 19 + Tailwind CSS 4 + shadcn/ui
-- **Backend**: Node.js + Express + tRPC
-- **Base de Datos**: MySQL 8.0
-- **ORM**: Drizzle ORM
-- **Autenticación**: Manus OAuth (opcional)
+### ✨ Características Principales
 
-## Despliegue con Docker
+- **📤 Subida de Excel**: Importa fácilmente listas de investigadores desde archivos Excel
+- **🔍 Búsqueda Automática**: Búsqueda automatizada en ORCID.org usando Puppeteer
+- **🧠 Búsqueda Inteligente**: 
+  - Normalización de nombres (sin acentos ni caracteres especiales)
+  - Múltiples variantes de instituciones
+  - Reintentos automáticos con backoff exponencial
+- **⚡ Procesamiento en Background**: Sistema de colas con BullMQ y Redis
+- **📊 Progreso en Tiempo Real**: WebSockets para actualización instantánea del dashboard
+- **✏️ Revisión Manual**: Interfaz para resolver casos ambiguos (0 o múltiples resultados)
+- **📥 Exportación**: Descarga Excel con ORCIDs encontrados y URLs de búsqueda
+- **🐳 Docker Ready**: Despliegue fácil con Docker Compose
 
-### Requisitos
+## 🚀 Inicio Rápido
 
-- Docker 20.10+
-- Docker Compose 2.0+
+### Opción 1: Docker Compose (Recomendado)
 
-### Inicio Rápido
-
-1. Clona el repositorio o descarga los archivos
-
-2. Crea un archivo `.env` en la raíz del proyecto (ver sección Variables de Entorno)
-
-3. Ejecuta:
 ```bash
+# 1. Clonar repositorio
+git clone https://github.com/vtomasv/ORCIDSearcher.git
+cd ORCIDSearcher
+
+# 2. Configurar variables de entorno
+cp .env.example .env
+# Editar .env con tus credenciales
+
+# 3. Iniciar servicios
 docker-compose up --build -d
-```
 
-4. Accede a la aplicación en `http://localhost:3000`
-
-5. Ejecuta las migraciones de base de datos:
-```bash
+# 4. Ejecutar migraciones
 docker-compose exec app pnpm db:push
+
+# 5. Cargar instituciones (opcional pero recomendado)
+docker-compose exec app pnpm db:seed-institutions
+
+# 6. Acceder a la aplicación
+# Abrir http://localhost:3000
 ```
 
-### Variables de Entorno
+### Opción 2: Instalación Local
 
-Crea un archivo `.env` con las siguientes variables:
-
-```env
-# Database
-MYSQL_ROOT_PASSWORD=tu_password_root_seguro
-MYSQL_DATABASE=orcid_manager
-MYSQL_USER=orcid_user
-MYSQL_PASSWORD=tu_password_seguro
-MYSQL_PORT=3306
-
-# Application
-APP_PORT=3000
-JWT_SECRET=clave-secreta-jwt-muy-segura
-
-# OAuth (opcional)
-OAUTH_SERVER_URL=https://api.manus.im
-VITE_OAUTH_PORTAL_URL=https://portal.manus.im
-VITE_APP_ID=tu-app-id
-
-# App Config
-VITE_APP_TITLE=ORCID Manager
-VITE_APP_LOGO=/logo.svg
-```
-
-Ver `DOCKER_README.md` para instrucciones detalladas.
-
-## Desarrollo Local
-
-### Requisitos
+#### Requisitos Previos
 
 - Node.js 22+
 - pnpm 10+
 - MySQL 8.0+
+- Redis 7+
 
-### Instalación
+#### Instalación
 
-1. Instala dependencias:
 ```bash
+# 1. Clonar repositorio
+git clone https://github.com/vtomasv/ORCIDSearcher.git
+cd ORCIDSearcher
+
+# 2. Instalar dependencias
 pnpm install
-```
 
-2. Configura las variables de entorno (usa el panel de gestión de Manus)
+# 3. Configurar variables de entorno
+cp .env.example .env
+# Editar .env con tus credenciales de MySQL y Redis
 
-3. Ejecuta las migraciones:
-```bash
+# 4. Ejecutar migraciones
 pnpm db:push
-```
 
-4. Inicia el servidor de desarrollo:
-```bash
+# 5. Cargar instituciones (opcional pero recomendado)
+pnpm db:seed-institutions
+
+# 6. Iniciar en desarrollo
 pnpm dev
+
+# O construir para producción
+pnpm build
+pnpm start
 ```
 
-5. Accede a `http://localhost:3000`
+## 📖 Cómo Usar
 
-## Formato del Excel
+### 1. Preparar Excel
 
-El archivo Excel debe contener las siguientes columnas:
+Crea un archivo Excel (.xlsx) con las siguientes columnas:
 
-- **First Name** (requerido): Nombre del investigador
-- **Last Name** (requerido): Apellido del investigador
-- **Institution** (opcional): Institución del investigador
-- **Email** (opcional): Correo electrónico
-- **Country** (opcional): País
+| firstName | lastName | institution | email (opcional) | country (opcional) |
+|-----------|----------|-------------|------------------|-------------------|
+| Juan      | Pérez    | Universidad de La República | juan@example.com | Uruguay |
+| María     | García   | UDELAR      | maria@example.com | Uruguay |
 
-## Uso
+### 2. Subir Archivo
 
-1. **Subir Excel**: Ve a la página de Upload y selecciona tu archivo
-2. **Ver Progreso**: El Dashboard muestra el estado de las búsquedas
-3. **Revisar Casos**: En la página Review, decide manualmente sobre casos ambiguos
-4. **Exportar**: Descarga el Excel con los resultados desde el Dashboard
+1. Accede a la aplicación en http://localhost:3000
+2. Haz clic en "Subir Excel"
+3. Selecciona tu archivo Excel
+4. Haz clic en "Procesar"
 
-## Estructura del Proyecto
+### 3. Iniciar Búsqueda Automática
+
+1. Ve al Dashboard
+2. Haz clic en el botón "Buscar ORCIDs" en la sesión correspondiente
+3. Observa el progreso en tiempo real
+
+### 4. Revisar Casos Ambiguos
+
+1. Ve a la página de "Revisión Manual"
+2. Revisa casos con múltiples resultados o sin resultados
+3. Selecciona el ORCID correcto o marca como "No encontrado"
+
+### 5. Exportar Resultados
+
+1. En el Dashboard, haz clic en "Exportar Excel"
+2. Descarga el archivo con los ORCIDs encontrados
+
+## 🏗️ Arquitectura
+
+### Stack Tecnológico
+
+**Frontend:**
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- tRPC para comunicación type-safe
+- Socket.IO Client para WebSockets
+- Wouter para routing
+
+**Backend:**
+- Node.js con Express
+- tRPC Server
+- MySQL con Drizzle ORM
+- Redis para colas
+- BullMQ para procesamiento en background
+- Socket.IO para WebSockets en tiempo real
+- Puppeteer para scraping de ORCID.org
+
+**Infraestructura:**
+- Docker & Docker Compose
+- MySQL 8.0
+- Redis 7
+
+### Estructura del Proyecto
 
 ```
 orcid-manager/
-├── client/           # Frontend React
+├── client/                 # Frontend React
 │   ├── src/
-│   │   ├── pages/    # Páginas de la aplicación
-│   │   ├── components/ # Componentes reutilizables
-│   │   └── lib/      # Utilidades y configuración
-├── server/           # Backend Node.js
-│   ├── _core/        # Infraestructura (OAuth, tRPC, etc.)
-│   ├── db.ts         # Funciones de base de datos
-│   ├── routers.ts    # Endpoints tRPC
-│   └── utils.ts      # Utilidades
-├── drizzle/          # Esquemas y migraciones de BD
-├── shared/           # Código compartido
-├── storage/          # Helpers de S3
-├── Dockerfile        # Configuración Docker
-└── docker-compose.yml # Orquestación de servicios
+│   │   ├── pages/         # Páginas de la aplicación
+│   │   ├── components/    # Componentes reutilizables
+│   │   ├── hooks/         # Custom hooks (useSocket, useAuth)
+│   │   └── lib/           # Utilidades y configuración
+├── server/                # Backend Node.js
+│   ├── _core/            # Configuración del servidor
+│   ├── db.ts             # Funciones de base de datos
+│   ├── routers.ts        # Endpoints tRPC
+│   ├── orcidSearchWorker.ts  # Worker de búsqueda
+│   ├── queueService.ts   # Servicio de colas BullMQ
+│   └── utils.ts          # Utilidades
+├── drizzle/              # Esquemas y migraciones
+├── scripts/              # Scripts de utilidad
+├── docker-compose.yml    # Orquestación de servicios
+└── Dockerfile           # Imagen de la aplicación
 ```
 
-## Comandos Útiles
+## 🔧 Configuración
+
+### Variables de Entorno
+
+Crea un archivo `.env` basado en `.env.example`:
+
+```env
+# Base de Datos
+DATABASE_URL=mysql://user:password@localhost:3306/orcid_manager
+
+# Redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+# JWT
+JWT_SECRET=your-super-secret-jwt-key
+
+# OAuth (Manus)
+OAUTH_SERVER_URL=https://api.manus.im
+VITE_OAUTH_PORTAL_URL=https://account.manus.im
+VITE_APP_ID=your-app-id
+
+# Aplicación
+VITE_APP_TITLE=ORCID Manager
+APP_PORT=3000
+```
+
+### Cargar Instituciones
+
+El archivo `instituciones_final.json` contiene variantes de nombres de instituciones para mejorar las búsquedas:
 
 ```bash
-# Desarrollo
-pnpm dev              # Iniciar servidor de desarrollo
-pnpm build            # Construir para producción
-pnpm start            # Iniciar en producción
-pnpm db:push          # Aplicar migraciones
+# Con Docker
+docker-compose exec app pnpm db:seed-institutions
 
-# Docker
-docker-compose up -d           # Iniciar servicios
-docker-compose logs -f app     # Ver logs
-docker-compose down            # Detener servicios
-docker-compose exec app sh     # Acceder al contenedor
+# Sin Docker
+pnpm db:seed-institutions
 ```
 
-## Licencia
+## 📝 Scripts Disponibles
 
-MIT
+```bash
+pnpm dev                    # Iniciar en desarrollo
+pnpm build                  # Construir para producción
+pnpm start                  # Iniciar en producción
+pnpm db:push                # Ejecutar migraciones
+pnpm db:seed-institutions   # Cargar instituciones
+pnpm test                   # Ejecutar tests
+pnpm format                 # Formatear código
+pnpm check                  # Verificar tipos TypeScript
+```
 
-## Soporte
+## 🐛 Solución de Problemas
 
-Para preguntas o problemas, consulta la documentación o abre un issue.
+### Error de Conexión a MySQL
+
+```bash
+# Verificar que MySQL esté ejecutándose
+docker-compose ps
+
+# Ver logs de MySQL
+docker-compose logs db
+```
+
+### Error de Conexión a Redis
+
+```bash
+# Verificar que Redis esté ejecutándose
+docker-compose ps
+
+# Ver logs de Redis
+docker-compose logs redis
+```
+
+### Puppeteer no Funciona
+
+Puppeteer requiere dependencias del sistema. En Docker ya están incluidas. En instalación local:
+
+```bash
+# Ubuntu/Debian
+sudo apt-get install -y \
+  chromium-browser \
+  libx11-xcb1 \
+  libxcomposite1 \
+  libxdamage1 \
+  libxi6 \
+  libxtst6 \
+  libnss3 \
+  libcups2 \
+  libxss1 \
+  libxrandr2 \
+  libasound2 \
+  libpangocairo-1.0-0 \
+  libatk1.0-0 \
+  libatk-bridge2.0-0 \
+  libgtk-3-0
+```
+
+## 🤝 Contribuir
+
+Las contribuciones son bienvenidas. Por favor:
+
+1. Fork el repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
+
+## 👥 Autores
+
+- **Desarrollo Inicial** - [vtomasv](https://github.com/vtomasv)
+
+## 🙏 Agradecimientos
+
+- [ORCID](https://orcid.org/) por proporcionar la base de datos de identificadores de investigadores
+- Comunidad open source por las excelentes herramientas utilizadas
+
+## 📞 Soporte
+
+Si encuentras algún problema o tienes sugerencias:
+
+- Abre un [Issue](https://github.com/vtomasv/ORCIDSearcher/issues)
+- Contacta al equipo de desarrollo
+
+---
+
+**Versión**: 1.0.0-rc2  
+**Última Actualización**: Noviembre 2024
