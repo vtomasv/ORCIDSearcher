@@ -15,8 +15,8 @@
 - [x] Implementar endpoint para subir y procesar Excel
 - [x] Crear utilidades de normalización de nombres
 - [x] Integrar variantes de instituciones
-- [ ] Implementar servicio de búsqueda automática de ORCIDs (backend worker)
-- [ ] Conectar con ORCID.org para búsquedas
+- [x] Implementar servicio de búsqueda automática de ORCIDs (backend worker)
+- [x] Conectar con ORCID.org para búsquedas usando Puppeteer
 
 ## Fase 4: Revisión Manual
 - [x] Crear interfaz para casos con 0 resultados
@@ -31,32 +31,42 @@
 - [x] Implementar descarga de archivo final
 
 ## Fase 6: Mejoras y Pulido
-- [ ] Agregar indicadores de progreso en tiempo real
-- [ ] Implementar manejo de errores robusto
-- [ ] Agregar validaciones de datos
-- [ ] Optimizar rendimiento de búsquedas
-- [ ] Cargar datos de instituciones desde JSON
-- [ ] Documentar uso de la aplicación
+- [x] Agregar indicadores de progreso en tiempo real con WebSockets
+- [x] Implementar manejo de errores robusto
+- [x] Agregar validaciones de datos
+- [x] Optimizar rendimiento de búsquedas con sistema de colas (BullMQ)
+- [x] Crear script para cargar datos de instituciones desde JSON
+- [ ] Documentar uso de la aplicación actualizado
+- [ ] Probar flujo completo end-to-end
 
-## Pendiente: Búsqueda Automática de ORCIDs
-- [ ] Crear worker/job para búsqueda automática en background
-- [ ] Implementar scraping o API de ORCID
-- [ ] Procesar investigadores en lotes
-- [ ] Actualizar progreso en tiempo real
+## Fase 7: Búsqueda Automática de ORCIDs
+- [x] Crear worker/job para búsqueda automática en background
+- [x] Implementar scraping de ORCID con Puppeteer
+- [x] Procesar investigadores en lotes con BullMQ
+- [x] Actualizar progreso en tiempo real con Socket.IO
+- [x] Implementar búsqueda con normalización de nombres
+- [x] Implementar búsqueda con variantes de instituciones
+- [x] Agregar endpoint para iniciar búsqueda automática
 
-
-## Fase 7: Docker y Despliegue
+## Fase 8: Docker y Despliegue
 - [x] Crear Dockerfile para la aplicación
 - [x] Crear docker-compose.yml con app y base de datos
+- [x] Agregar Redis al docker-compose para BullMQ
 - [x] Configurar variables de entorno
 - [x] Probar build de la aplicación
 - [x] Crear .dockerignore
 - [x] Documentar instrucciones de despliegue
 
+## Fase 9: GitHub Release
+- [x] Clonar repositorio ORCIDSearcher
+- [x] Copiar archivos del proyecto
+- [x] Crear commit con cambios
+- [x] Crear tag de versión v1.0.0-rc1
+- [x] Publicar release candidate en GitHub
 
-## Fase 8: GitHub Release
-- [ ] Clonar repositorio ORCIDSearcher
-- [ ] Copiar archivos del proyecto
-- [ ] Crear commit con cambios
-- [ ] Crear tag de versión
-- [ ] Publicar release candidate en GitHub
+## Próximos Pasos
+- [ ] Actualizar README con nuevas funcionalidades
+- [ ] Actualizar DOCKER_README con instrucciones de Redis
+- [ ] Crear tests para búsqueda automática
+- [ ] Probar flujo completo con datos reales
+- [ ] Publicar versión final v1.0.0

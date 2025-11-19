@@ -5,16 +5,45 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { ArrowLeft, Download, Eye, RefreshCw } from "lucide-react";
+import { ArrowLeft, Download, Eye, RefreshCw, Play } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
+import { useSocket } from "@/hooks/useSocket";
+import { useEffect } from "react";
 
 export default function Dashboard() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
+  const { progress } = useSocket();
   
   const { data: sessions, isLoading, refetch } = trpc.upload.getSessions.useQuery(undefined, {
     enabled: isAuthenticated,
   });
+  
+  const startSearchMutation = trpc.search.startAutoSearch.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success(data.message);
+        // Refetch sessions to update counts
+        setTimeout(() => refetch(), 1000);
+      } else {
+        toast.error(data.message);
+      }
+    },
+    onError: (error) => {
+      toast.error(`Error al iniciar búsqueda: ${error.message}`);
+    },
+  });
+  
+  // Refetch sessions when progress updates
+  useEffect(() => {
+    if (progress && progress.processed === progress.total) {
+      // Search completed, refetch sessions
+      setTimeout(() => {
+        refetch();
+        toast.success('Búsqueda automática completada');
+      }, 1000);
+    }
+  }, [progress, refetch]);
 
   const exportMutation = trpc.orcid.exportToExcel.useMutation({
     onSuccess: (data) => {
@@ -115,15 +144,27 @@ export default function Dashboard() {
                         Subido el {new Date(session.createdAt).toLocaleString('es-ES')}
                       </CardDescription>
                     </div>
-                    <Badge variant={
-                      session.status === 'completed' ? 'default' :
-                      session.status === 'processing' ? 'secondary' :
-                      session.status === 'failed' ? 'destructive' : 'outline'
-                    }>
-                      {session.status === 'completed' ? 'Completado' :
-                       session.status === 'processing' ? 'Procesando' :
-                       session.status === 'failed' ? 'Fallido' : 'Subiendo'}
-                    </Badge>
+                    <div className="flex gap-2 items-center">
+                      <Badge variant={
+                        session.status === 'completed' ? 'default' :
+                        session.status === 'processing' ? 'secondary' :
+                        session.status === 'failed' ? 'destructive' : 'outline'
+                      }>
+                        {session.status === 'completed' ? 'Completado' :
+                         session.status === 'processing' ? 'Procesando' :
+                         session.status === 'failed' ? 'Fallido' : 'Subiendo'}
+                      </Badge>
+                      {session.status === 'completed' && session.totalResearchers > session.foundCount + session.multipleCount + session.notFoundCount && (
+                        <Button 
+                          size="sm" 
+                          onClick={() => startSearchMutation.mutate({ sessionId: session.id })}
+                          disabled={startSearchMutation.isPending}
+                        >
+                          <Play className="mr-2 h-4 w-4" />
+                          {startSearchMutation.isPending ? 'Iniciando...' : 'Buscar ORCIDs'}
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent>

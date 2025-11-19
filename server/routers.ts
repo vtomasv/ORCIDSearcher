@@ -20,6 +20,7 @@ import {
 } from "./db";
 import { normalizeText, getInstitutionVariants, buildOrcidSearchUrl } from "./utils";
 import ExcelJS from 'exceljs';
+import { orcidSearchQueue, initProgress, getProgress } from './queueService';
 
 export const appRouter = router({
   system: systemRouter,
@@ -243,6 +244,60 @@ export const appRouter = router({
           filename: `orcid-results-${new Date().toISOString().split('T')[0]}.xlsx`,
         };
       }),
+  }),
+
+  // Automatic ORCID search
+  search: router({    
+    // Start automatic search for all pending researchers
+    startAutoSearch: protectedProcedure
+      .input(z.object({
+        sessionId: z.number(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const userId = ctx.user.id;
+        
+        // Get all searches for this session that are pending
+        const allSearches = await getAllOrcidSearchesByUser(userId);
+        const pendingSearches = allSearches.filter(
+          s => s.search.status === 'pending' && s.researcher.uploadSessionId === input.sessionId
+        );
+        
+        if (pendingSearches.length === 0) {
+          return { success: false, message: 'No pending searches found' };
+        }
+        
+        // Initialize progress tracking
+        initProgress(userId, pendingSearches.length);
+        
+        // Get all institutions for variants
+        const institutions = await getAllInstitutions();
+        
+        // Add jobs to queue
+        for (const { search, researcher } of pendingSearches) {
+          const institutionVariants = researcher.institution 
+            ? getInstitutionVariants(researcher.institution, institutions)
+            : [];
+          
+          await orcidSearchQueue.add('search-orcid', {
+            searchId: search.id,
+            researcherId: researcher.id,
+            userId,
+            institutionVariants,
+          });
+        }
+        
+        return { 
+          success: true, 
+          message: `Started automatic search for ${pendingSearches.length} researchers`,
+          total: pendingSearches.length
+        };
+      }),
+    
+    // Get search progress
+    getProgress: protectedProcedure.query(async ({ ctx }) => {
+      const progress = getProgress(ctx.user.id);
+      return progress;
+    }),
   }),
 
   // Institutions management

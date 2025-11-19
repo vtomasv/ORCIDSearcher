@@ -1,0 +1,483 @@
+[
+  {
+    "id": "cicese_research",
+    "canonical": "CICESE Research",
+    "country_code": "MX",
+    "fingerprint": "ciceseresearch",
+    "variants": [
+      "CICESE RESEARCH",
+      "CICESE Research",
+      "Cicese Research",
+      "cicese research"
+    ],
+    "country": "Mexico",
+    "orcid_registry_name": "CICESE Research"
+  },
+  {
+    "id": "instituto_politecnico_nacional",
+    "canonical": "Instituto Politécnico Nacional",
+    "country_code": "MX",
+    "fingerprint": "institutopolitecniconacional",
+    "variants": [
+      "INSTITUTO POLITÉCNICO NACIONAL",
+      "Instituto Politecnico Nacional",
+      "Instituto Politécnico Nacional",
+      "instituto politécnico nacional"
+    ],
+    "country": "Mexico",
+    "orcid_registry_name": "Instituto Politécnico Nacional"
+  },
+  {
+    "id": "instituto_tecnologico_de_costa_rica",
+    "canonical": "Instituto Tecnológico de Costa Rica",
+    "country_code": "",
+    "fingerprint": "institutotecnologicodecostarica",
+    "variants": [
+      "INSTITUTO TECNOLÓGICO DE COSTA RICA",
+      "Instituto Tecnologico de Costa Rica",
+      "Instituto Tecnológico De Costa Rica",
+      "Instituto Tecnológico de Costa Rica",
+      "instituto tecnológico de costa rica"
+    ],
+    "country": "Costa Rica",
+    "orcid_registry_name": "Instituto Tecnológico de Costa Rica"
+  },
+  {
+    "id": "instituto_tecnologico_y_de_estudios_superiores_de_monterrey",
+    "canonical": "Instituto Tecnológico y de Estudios Superiores de Monterrey",
+    "country_code": "MX",
+    "fingerprint": "institutotecnologicoydeestudiossuperioresdemonterrey",
+    "variants": [
+      "INSTITUTO TECNOLÓGICO Y DE ESTUDIOS SUPERIORES DE MONTERREY",
+      "Instituto Tecnologico y de Estudios Superiores de Monterrey",
+      "Instituto Tecnológico Y De Estudios Superiores De Monterrey",
+      "Instituto Tecnológico y de Estudios Superiores de Monterrey",
+      "instituto tecnológico y de estudios superiores de monterrey"
+    ],
+    "country": "Mexico",
+    "orcid_registry_name": "Instituto Tecnológico y de Estudios Superiores de Monterrey"
+  },
+  {
+    "id": "pontificia_universidad_catolica_de_chile",
+    "canonical": "Pontificia Universidad Católica de Chile",
+    "country_code": "CL",
+    "fingerprint": "pontificiauniversidadcatolicadechile",
+    "variants": [
+      "PONTIFICIA UNIVERSIDAD CATÓLICA DE CHILE",
+      "Pontificia Universidad Catolica de Chile",
+      "Pontificia Universidad Católica De Chile",
+      "Pontificia Universidad Católica de Chile",
+      "UNIVERSITY OF CATÓLICA DE CHILE",
+      "University Of Católica De Chile",
+      "University of Catolica de Chile",
+      "University of Católica de Chile",
+      "pontificia  católica de chile",
+      "pontificia universidad católica de chile",
+      "university of católica de chile"
+    ],
+    "country": "Chile",
+    "orcid_registry_name": "University of Católica de Chile"
+  },
+  {
+    "id": "pontificia_universidade_catolica_do_rio_de_janeiro",
+    "canonical": "Pontifícia Universidade Católica do Rio de Janeiro",
+    "country_code": "BR",
+    "fingerprint": "pontificiauniversidadecatolicadoriodejaneiro",
+    "variants": [
+      "PONTIFÍCIA UNIVERSIDADE CATÓLICA DO RIO DE JANEIRO",
+      "Pontificia Universidade Catolica do Rio de Janeiro",
+      "Pontifícia Universidade Católica Do Rio De Janeiro",
+      "Pontifícia Universidade Católica do Rio de Janeiro",
+      "UNIVERSITY OF CATÓLICA DO RIO DE JANEIRO",
+      "University Of Católica Do Rio De Janeiro",
+      "University of Catolica do Rio de Janeiro",
+      "University of Católica do Rio de Janeiro",
+      "pontifícia  católica do rio de janeiro",
+      "pontifícia universidade católica do rio de janeiro",
+      "university of católica do rio de janeiro"
+    ],
+    "country": "Brazil",
+    "orcid_registry_name": "University of Católica do Rio de Janeiro"
+  },
+  {
+    "id": "universidad_autonoma_de_bucaramanga",
+    "canonical": "Universidad Autónoma de Bucaramanga",
+    "country_code": "CO",
+    "fingerprint": "universidadautonomadebucaramanga",
+    "variants": [
+      "UNIVERSIDAD AUTÓNOMA DE BUCARAMANGA",
+      "UNIVERSITY OF DE BUCARAMANGA",
+      "Universidad Autonoma de Bucaramanga",
+      "Universidad Autónoma De Bucaramanga",
+      "Universidad Autónoma de Bucaramanga",
+      "University Of De Bucaramanga",
+      "University of de Bucaramanga",
+      "universidad autónoma de bucaramanga",
+      "university of de bucaramanga"
+    ],
+    "country": "Colombia",
+    "orcid_registry_name": "University of de Bucaramanga"
+  },
+  {
+    "id": "universidad_autonoma_de_nueva_leon",
+    "canonical": "Universidad Autónoma de Nueva León",
+    "country_code": "MX",
+    "fingerprint": "universidadautonomadenuevaleon",
+    "variants": [
+      "UNIVERSIDAD AUTÓNOMA DE NUEVA LEÓN",
+      "UNIVERSITY OF DE NUEVA LEÓN",
+      "Universidad Autonoma de Nueva Leon",
+      "Universidad Autónoma De Nueva León",
+      "Universidad Autónoma de Nueva León",
+      "University Of De Nueva León",
+      "University of de Nueva Leon",
+      "University of de Nueva León",
+      "universidad autónoma de nueva león",
+      "university of de nueva león"
+    ],
+    "country": "Mexico",
+    "orcid_registry_name": "University of de Nueva León"
+  },
+  {
+    "id": "universidad_de_los_andes",
+    "canonical": "Universidad De Los Andes",
+    "country_code": "CO",
+    "fingerprint": "universidaddelosandes",
+    "variants": [
+      "UNIVERSIDAD DE LOS ANDES",
+      "UNIVERSITY OF LOS ANDES",
+      "Universidad De Los Andes",
+      "University Of Los Andes",
+      "University of Los Andes",
+      "universidad de los andes",
+      "university of los andes"
+    ],
+    "country": "Colombia",
+    "orcid_registry_name": "University of Los Andes"
+  },
+  {
+    "id": "universidad_nacional_de_la_plata",
+    "canonical": "Universidad Nacional de La Plata",
+    "country_code": "AR",
+    "fingerprint": "universidadnacionaldelaplata",
+    "variants": [
+      "UNIVERSIDAD NACIONAL DE LA PLATA",
+      "UNIVERSITY OF DE LA PLATA",
+      "Universidad Nacional De La Plata",
+      "Universidad Nacional de La Plata",
+      "University Of De La Plata",
+      "University of de La Plata",
+      "universidad nacional de la plata",
+      "university of de la plata"
+    ],
+    "country": "Argentina",
+    "orcid_registry_name": "University of de La Plata"
+  },
+  {
+    "id": "universidad_santiago_de_chile",
+    "canonical": "Universidad Santiago de Chile",
+    "country_code": "CL",
+    "fingerprint": "universidadsantiagodechile",
+    "variants": [
+      "UNIVERSIDAD SANTIAGO DE CHILE",
+      "UNIVERSITY OF DE CHILE",
+      "Universidad Santiago De Chile",
+      "Universidad Santiago de Chile",
+      "University Of De Chile",
+      "University of de Chile",
+      "universidad santiago de chile",
+      "university of de chile"
+    ],
+    "country": "Chile",
+    "orcid_registry_name": "University of de Chile"
+  },
+  {
+    "id": "universidad_tecnica_federico_santa_maria",
+    "canonical": "Universidad Técnica Federico Santa María",
+    "country_code": "CL",
+    "fingerprint": "universidadtecnicafedericosantamaria",
+    "variants": [
+      "UNIVERSIDAD TÉCNICA FEDERICO SANTA MARÍA",
+      "UNIVERSITY OF FEDERICO SANTA MARÍA",
+      "Universidad Tecnica Federico Santa Maria",
+      "Universidad Técnica Federico Santa María",
+      "University Of Federico Santa María",
+      "University of Federico Santa Maria",
+      "University of Federico Santa María",
+      "universidad técnica federico santa maría",
+      "university of federico santa maría"
+    ],
+    "country": "Chile",
+    "orcid_registry_name": "University of Federico Santa María"
+  },
+  {
+    "id": "universidad_de_buenos_aires",
+    "canonical": "Universidad de Buenos Aires",
+    "country_code": "AR",
+    "fingerprint": "universidaddebuenosaires",
+    "variants": [
+      "UNIVERSIDAD DE BUENOS AIRES",
+      "UNIVERSITY OF BUENOS AIRES",
+      "Universidad De Buenos Aires",
+      "Universidad de Buenos Aires",
+      "University Of Buenos Aires",
+      "University of Buenos Aires",
+      "universidad de buenos aires",
+      "university of buenos aires"
+    ],
+    "country": "Argentina",
+    "orcid_registry_name": "University of Buenos Aires"
+  },
+  {
+    "id": "universidad_de_chile",
+    "canonical": "Universidad de Chile",
+    "country_code": "CL",
+    "fingerprint": "universidaddechile",
+    "variants": [
+      "UNIVERSIDAD DE CHILE",
+      "UNIVERSITY OF CHILE",
+      "Universidad De Chile",
+      "Universidad de Chile",
+      "University Of Chile",
+      "University of Chile",
+      "universidad de chile",
+      "university of chile"
+    ],
+    "country": "Chile",
+    "orcid_registry_name": "University of Chile"
+  },
+  {
+    "id": "universidad_de_concepcion",
+    "canonical": "Universidad de Concepción",
+    "country_code": "CL",
+    "fingerprint": "universidaddeconcepcion",
+    "variants": [
+      "UNIVERSIDAD DE CONCEPCIÓN",
+      "UNIVERSITY OF CONCEPCIÓN",
+      "Universidad De Concepción",
+      "Universidad de Concepcion",
+      "Universidad de Concepción",
+      "University Of Concepción",
+      "University of Concepcion",
+      "University of Concepción",
+      "universidad de concepción",
+      "university of concepción"
+    ],
+    "country": "Chile",
+    "orcid_registry_name": "University of Concepción"
+  },
+  {
+    "id": "universidad_de_costa_rica",
+    "canonical": "Universidad de Costa Rica",
+    "country_code": "",
+    "fingerprint": "universidaddecostarica",
+    "variants": [
+      "UNIVERSIDAD DE COSTA RICA",
+      "UNIVERSITY OF COSTA RICA",
+      "Universidad De Costa Rica",
+      "Universidad de Costa Rica",
+      "University Of Costa Rica",
+      "University of Costa Rica",
+      "universidad de costa rica",
+      "university of costa rica"
+    ],
+    "country": "Costa Rica",
+    "orcid_registry_name": "University of Costa Rica"
+  },
+  {
+    "id": "universidad_de_la_plata",
+    "canonical": "Universidad de La Plata",
+    "country_code": "AR",
+    "fingerprint": "universidaddelaplata",
+    "variants": [
+      "UNIVERSIDAD DE LA PLATA",
+      "UNIVERSITY OF LA PLATA",
+      "Universidad De La Plata",
+      "Universidad de La Plata",
+      "University Of La Plata",
+      "University of La Plata",
+      "universidad de la plata",
+      "university of la plata"
+    ],
+    "country": "Argentina",
+    "orcid_registry_name": "University of La Plata"
+  },
+  {
+    "id": "universidad_de_la_republica",
+    "canonical": "Universidad de La República",
+    "country_code": "UY",
+    "fingerprint": "universidaddelarepublica",
+    "variants": [
+      "UNIVERSIDAD DE LA REPÚBLICA",
+      "UNIVERSITY OF LA REPÚBLICA",
+      "Universidad De La República",
+      "Universidad de La Republica",
+      "Universidad de La República",
+      "University Of La República",
+      "University of La Republica",
+      "University of La República",
+      "universidad de la república",
+      "university of la república"
+    ],
+    "country": "Uruguay",
+    "orcid_registry_name": "University of La República"
+  },
+  {
+    "id": "universidad_de_magallanes",
+    "canonical": "Universidad de Magallanes",
+    "country_code": "CL",
+    "fingerprint": "universidaddemagallanes",
+    "variants": [
+      "UNIVERSIDAD DE MAGALLANES",
+      "UNIVERSITY OF MAGALLANES",
+      "Universidad De Magallanes",
+      "Universidad de Magallanes",
+      "University Of Magallanes",
+      "University of Magallanes",
+      "universidad de magallanes",
+      "university of magallanes"
+    ],
+    "country": "Chile",
+    "orcid_registry_name": "University of Magallanes"
+  },
+  {
+    "id": "universidad_de_talca",
+    "canonical": "Universidad de Talca",
+    "country_code": "CL",
+    "fingerprint": "universidaddetalca",
+    "variants": [
+      "UNIVERSIDAD DE TALCA",
+      "UNIVERSITY OF TALCA",
+      "Universidad De Talca",
+      "Universidad de Talca",
+      "University Of Talca",
+      "University of Talca",
+      "universidad de talca",
+      "university of talca"
+    ],
+    "country": "Chile",
+    "orcid_registry_name": "University of Talca"
+  },
+  {
+    "id": "universidade_estadual_de_campinas",
+    "canonical": "Universidade Estadual de Campinas",
+    "country_code": "BR",
+    "fingerprint": "universidadeestadualdecampinas",
+    "variants": [
+      "UNIVERSIDADE ESTADUAL DE CAMPINAS",
+      "UNIVERSITY OF DE CAMPINAS",
+      "Universidade Estadual De Campinas",
+      "Universidade Estadual de Campinas",
+      "University Of De Campinas",
+      "University of de Campinas",
+      "universidade estadual de campinas",
+      "university of de campinas"
+    ],
+    "country": "Brazil",
+    "orcid_registry_name": "University of de Campinas"
+  },
+  {
+    "id": "universidade_federal_de_minas_gerais",
+    "canonical": "Universidade Federal de Minas Gerais",
+    "country_code": "BR",
+    "fingerprint": "universidadefederaldeminasgerais",
+    "variants": [
+      "UNIVERSIDADE FEDERAL DE MINAS GERAIS",
+      "UNIVERSITY OF DE MINAS GERAIS",
+      "Universidade Federal De Minas Gerais",
+      "Universidade Federal de Minas Gerais",
+      "University Of De Minas Gerais",
+      "University of de Minas Gerais",
+      "universidade federal de minas gerais",
+      "university of de minas gerais"
+    ],
+    "country": "Brazil",
+    "orcid_registry_name": "University of de Minas Gerais"
+  },
+  {
+    "id": "universidade_federal_de_pernambuco",
+    "canonical": "Universidade Federal de Pernambuco",
+    "country_code": "BR",
+    "fingerprint": "universidadefederaldepernambuco",
+    "variants": [
+      "UNIVERSIDADE FEDERAL DE PERNAMBUCO",
+      "UNIVERSITY OF DE PERNAMBUCO",
+      "Universidade Federal De Pernambuco",
+      "Universidade Federal de Pernambuco",
+      "University Of De Pernambuco",
+      "University of de Pernambuco",
+      "universidade federal de pernambuco",
+      "university of de pernambuco"
+    ],
+    "country": "Brazil",
+    "orcid_registry_name": "University of de Pernambuco"
+  },
+  {
+    "id": "universidade_federal_do_rio_grande_do_sul",
+    "canonical": "Universidade Federal do Rio Grande do Sul",
+    "country_code": "BR",
+    "fingerprint": "universidadefederaldoriograndedosul",
+    "variants": [
+      "UNIVERSIDADE FEDERAL DO RIO GRANDE DO SUL",
+      "UNIVERSITY OF DO RIO GRANDE DO SUL",
+      "Universidade Federal Do Rio Grande Do Sul",
+      "Universidade Federal do Rio Grande do Sul",
+      "University Of Do Rio Grande Do Sul",
+      "University of do Rio Grande do Sul",
+      "universidade federal do rio grande do sul",
+      "university of do rio grande do sul"
+    ],
+    "country": "Brazil",
+    "orcid_registry_name": "University of do Rio Grande do Sul"
+  },
+  {
+    "id": "universidade_federal_do_rio_de_janeiro",
+    "canonical": "Universidade Federal do Rio de Janeiro",
+    "country_code": "BR",
+    "fingerprint": "universidadefederaldoriodejaneiro",
+    "variants": [
+      "UNIVERSIDADE FEDERAL DO RIO DE JANEIRO",
+      "UNIVERSITY OF DO RIO DE JANEIRO",
+      "Universidade Federal Do Rio De Janeiro",
+      "Universidade Federal do Rio de Janeiro",
+      "University Of Do Rio De Janeiro",
+      "University of do Rio de Janeiro",
+      "universidade federal do rio de janeiro",
+      "university of do rio de janeiro"
+    ],
+    "country": "Brazil",
+    "orcid_registry_name": "University of do Rio de Janeiro"
+  },
+  {
+    "id": "universidade_de_sao_paulo",
+    "canonical": "Universidade de Sao Paulo",
+    "country_code": "BR",
+    "fingerprint": "universidadedesaopaulo",
+    "variants": [
+      "UNIVERSIDADE DE SAO PAULO",
+      "UNIVERSITY OF SAO PAULO",
+      "Universidade De Sao Paulo",
+      "Universidade de Sao Paulo",
+      "University Of Sao Paulo",
+      "University of Sao Paulo",
+      "universidade de sao paulo",
+      "university of sao paulo"
+    ],
+    "country": "Brazil",
+    "orcid_registry_name": "University of Sao Paulo"
+  },
+  {
+    "id": "university_of_the_west_indies",
+    "canonical": "University of the West Indies",
+    "country_code": "",
+    "fingerprint": "universityofthewestindies",
+    "variants": [
+      "UNIVERSITY OF THE WEST INDIES",
+      "University Of The West Indies",
+      "University of the West Indies",
+      "university of the west indies"
+    ],
+    "country": "Trinidad & Tobago",
+    "orcid_registry_name": "University of the West Indies"
+  }
+]
