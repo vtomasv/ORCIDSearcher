@@ -85,3 +85,4 @@
 - [x] Fix: Agregar función getResearcherById a server/db.ts
 - [x] Fix: Hacer importación de vite dinámica para evitar incluirla en producción
 - [x] Fix: Eliminar importación de vite.config para evitar bundlear plugins
+- [x] Fix: Agregar valores por defecto para OAuth URL para evitar TypeError
