@@ -183,5 +183,11 @@
 - [x] Actualizar backend para recibir parámetro de concurrencia
 - [x] Implementar rate limiting por batches
 - [x] Agregar logs de concurrencia
+- [x] Commit y push
+- [x] Crear release v1.0.19
+
+## Fase 24: Corrección de Condición del Botón de Inicio
+- [x] Cambiar condición del botón - eliminar requisito de status='completed'
+- [x] Botón ahora aparece cuando totalResearchers > procesados
 - [ ] Commit y push
-- [ ] Crear release v1.0.19
+- [ ] Crear release v1.0.20

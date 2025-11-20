@@ -123,7 +123,7 @@ export default function Dashboard() {
                          session.status === 'processing' ? 'Procesando' :
                          session.status === 'failed' ? 'Fallido' : 'Subiendo'}
                       </Badge>
-                      {session.status === 'completed' && session.totalResearchers > session.foundCount + session.multipleCount + session.notFoundCount && (
+                      {session.totalResearchers > session.foundCount + session.multipleCount + session.notFoundCount && (
                         <div className="flex gap-2 items-center">
                           <div className="flex flex-col gap-1">
                             <Label htmlFor="concurrency" className="text-xs">Workers</Label>
