@@ -273,18 +273,21 @@ export const appRouter = router({
         const institutions = await getAllInstitutions();
         
         // Add jobs to queue
+        console.log(`[Queue] Adding ${pendingSearches.length} jobs to queue for user ${userId}`);
         for (const { search, researcher } of pendingSearches) {
           const institutionVariants = researcher.institution 
             ? getInstitutionVariants(researcher.institution, institutions)
             : [];
           
-          await orcidSearchQueue.add('search-orcid', {
+          const job = await orcidSearchQueue.add('search-orcid', {
             searchId: search.id,
             researcherId: researcher.id,
             userId,
             institutionVariants,
           });
+          console.log(`[Queue] Added job ${job.id} for search ${search.id}`);
         }
+        console.log(`[Queue] All ${pendingSearches.length} jobs added successfully`);
         
         return { 
           success: true, 

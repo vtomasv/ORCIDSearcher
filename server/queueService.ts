@@ -91,6 +91,8 @@ export function clearProgress(userId: number) {
 }
 
 // Create worker
+console.log('[Worker] Initializing ORCID search worker...');
+
 const worker = new Worker<SearchJobData>(
   'orcid-search',
   async (job: Job<SearchJobData>) => {
@@ -156,12 +158,22 @@ const worker = new Worker<SearchJobData>(
 );
 
 worker.on('completed', (job) => {
-  console.log(`Job ${job.id} completed`);
+  console.log(`[Worker] Job ${job.id} completed`);
 });
 
 worker.on('failed', (job, err) => {
-  console.error(`Job ${job?.id} failed:`, err);
+  console.error(`[Worker] Job ${job?.id} failed:`, err);
 });
+
+worker.on('ready', () => {
+  console.log('[Worker] Worker is ready and waiting for jobs');
+});
+
+worker.on('error', (err) => {
+  console.error('[Worker] Worker error:', err);
+});
+
+console.log('[Worker] ORCID search worker initialized successfully');
 
 // Cleanup on process exit
 process.on('SIGTERM', async () => {

@@ -164,5 +164,13 @@
 - [x] Identificar problema: Alpine Linux no tiene dependencias de Chromium
 - [x] Agregar instalación de Chromium y dependencias en Dockerfile
 - [x] Configurar variables de entorno para Puppeteer
+- [x] Commit y push
+- [x] Crear release v1.0.17
+
+## Fase 22: Diagnóstico del Worker de BullMQ No Procesando Trabajos
+- [x] Agregar logs de inicialización del worker (ready, error events)
+- [x] Agregar logs cuando se agregan trabajos a la cola
+- [x] Agregar logs para cada job agregado
+- [ ] Probar con logs mejorados para identificar el problema
 - [ ] Commit y push
-- [ ] Crear release v1.0.17
+- [ ] Crear release v1.0.18
