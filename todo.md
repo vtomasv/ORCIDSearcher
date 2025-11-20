@@ -156,5 +156,13 @@
 - [x] Copiar scripts al contenedor Docker
 - [x] Modificar CMD para ejecutar migraciones antes de iniciar servidor
 - [x] Agregar logs para confirmar migraciones
+- [x] Commit y push
+- [x] Crear release v1.0.16
+
+## Fase 21: Diagnóstico y Corrección del Worker de BullMQ
+- [x] Revisar server/queueService.ts - worker configurado correctamente
+- [x] Identificar problema: Alpine Linux no tiene dependencias de Chromium
+- [x] Agregar instalación de Chromium y dependencias en Dockerfile
+- [x] Configurar variables de entorno para Puppeteer
 - [ ] Commit y push
-- [ ] Crear release v1.0.16
+- [ ] Crear release v1.0.17
