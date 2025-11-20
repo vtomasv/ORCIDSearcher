@@ -124,6 +124,14 @@
 - [x] Identificar desincronización entre esquema y migración
 - [x] Revertir esquema para que coincida con migración original (openId NOT NULL)
 - [x] Actualizar initDefaultUser para usar openId como identificador principal
-- [ ] Probar creación de usuario y subida de archivo
+- [x] Probar creación de usuario y subida de archivo
+- [x] Commit y push
+- [x] Crear release v1.0.12
+
+## Fase 17: Corrección de Variables de Entorno en Docker
+- [x] Identificar variables VITE faltantes (VITE_APP_LOGO, VITE_ANALYTICS_ENDPOINT)
+- [x] Agregar ARGs en Dockerfile para variables VITE
+- [x] Configurar build args en docker-compose.yml
+- [x] Establecer valores por defecto para todas las variables VITE
 - [ ] Commit y push
-- [ ] Crear release v1.0.12
+- [ ] Crear release v1.0.13
