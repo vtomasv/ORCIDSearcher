@@ -83,3 +83,4 @@
 - [x] Fix: Crear archivo client/src/lib/trpc.ts faltante
 - [x] Fix: Crear archivo client/src/lib/utils.ts faltante
 - [x] Fix: Agregar función getResearcherById a server/db.ts
+- [x] Fix: Hacer importación de vite dinámica para evitar incluirla en producción
