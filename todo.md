@@ -198,5 +198,15 @@
 - [x] Agregar campo uploadSessionId a schema.ts
 - [x] Actualizar processExcel para pasar uploadSessionId
 - [x] Crear migración SQL para agregar columna
+- [x] Commit y push
+- [x] Crear release v1.0.21
+
+## Fase 26: Corrección de Ejecución de Migración
+- [x] Revisar scripts/migrate.mjs - usa drizzle migrator
+- [x] Identificar problema: 0002 no está en _journal.json
+- [x] Actualizar _journal.json con entrada para 0002
+- [x] Reescribir migrate.mjs para ejecutar SQL manual además de Drizzle
+- [x] Agregar manejo de errores para columnas duplicadas
+- [x] Agregar logs detallados por statement
 - [ ] Commit y push
-- [ ] Crear release v1.0.21
+- [ ] Crear release v1.0.22

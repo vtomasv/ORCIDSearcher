@@ -1,6 +1,12 @@
 import { drizzle } from 'drizzle-orm/mysql2';
 import { migrate } from 'drizzle-orm/mysql2/migrator';
 import mysql from 'mysql2/promise';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Run database migrations automatically
@@ -25,8 +31,43 @@ async function runMigrations() {
     // Create drizzle instance
     const db = drizzle(connection);
     
-    // Run migrations
+    // Run Drizzle migrations (0000, 0001)
     await migrate(db, { migrationsFolder: './drizzle' });
+    console.log('[Migration] Drizzle migrations completed');
+    
+    // Manually run additional SQL migrations that aren't in the journal
+    const migrationsDir = path.join(__dirname, '..', 'drizzle');
+    const manualMigrations = [
+      '0002_add_upload_session_id.sql'
+    ];
+    
+    for (const migrationFile of manualMigrations) {
+      const migrationPath = path.join(migrationsDir, migrationFile);
+      
+      if (fs.existsSync(migrationPath)) {
+        console.log(`[Migration] Executing manual migration: ${migrationFile}`);
+        const sql = fs.readFileSync(migrationPath, 'utf8');
+        
+        // Split by semicolon and execute each statement
+        const statements = sql.split(';').filter(s => s.trim());
+        
+        for (const statement of statements) {
+          if (statement.trim()) {
+            try {
+              await connection.query(statement);
+              console.log(`[Migration] ✓ Executed statement from ${migrationFile}`);
+            } catch (error) {
+              // Ignore "Duplicate column" errors (migration already applied)
+              if (error.code === 'ER_DUP_FIELDNAME') {
+                console.log(`[Migration] ⊙ Column already exists, skipping`);
+              } else {
+                throw error;
+              }
+            }
+          }
+        }
+      }
+    }
     
     console.log('[Migration] Migrations completed successfully');
   } catch (error) {
