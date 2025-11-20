@@ -10,7 +10,16 @@ export function normalizeText(text: string): string {
   // Remove diacritical marks (accents)
   const withoutAccents = nfd.replace(/[\u0300-\u036f]/g, '');
   
-  return withoutAccents;
+  // Convert to lowercase
+  const lowercase = withoutAccents.toLowerCase();
+  
+  // Remove special characters except spaces
+  const withoutSpecial = lowercase.replace(/[^a-z0-9\s]/g, '');
+  
+  // Normalize spaces (remove multiple spaces and trim)
+  const normalized = withoutSpecial.replace(/\s+/g, ' ').trim();
+  
+  return normalized;
 }
 
 /**
