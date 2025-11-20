@@ -9,6 +9,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import '../queueService'; // Initialize queue worker
+import { initDefaultUser } from '../initDefaultUser';
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -30,6 +31,11 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 }
 
 async function startServer() {
+  // Initialize default user before starting server
+  console.log('[Server] Initializing default user...');
+  await initDefaultUser();
+  console.log('[Server] Default user initialized');
+  
   const app = express();
   const server = createServer(app);
   

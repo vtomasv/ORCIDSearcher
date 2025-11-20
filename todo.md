@@ -133,5 +133,13 @@
 - [x] Agregar ARGs en Dockerfile para variables VITE
 - [x] Configurar build args en docker-compose.yml
 - [x] Establecer valores por defecto para todas las variables VITE
+- [x] Commit y push
+- [x] Crear release v1.0.13
+
+## Fase 18: Inicialización Automática del Usuario Por Defecto
+- [x] Revisar server/_core/index.ts para ver el inicio del servidor
+- [x] Agregar importación de initDefaultUser
+- [x] Agregar llamada a initDefaultUser() al inicio de startServer()
+- [x] Agregar logs para confirmar inicialización
 - [ ] Commit y push
-- [ ] Crear release v1.0.13
+- [ ] Crear release v1.0.14
