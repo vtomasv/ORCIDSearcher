@@ -105,5 +105,15 @@
 - [x] Corregir Dashboard.tsx - eliminar verificación de auth
 - [x] Corregir Upload.tsx - eliminar verificación de auth
 - [x] Corregir Review.tsx - eliminar verificación de auth
-- [ ] Commit y push de correcciones
-- [ ] Crear release v1.0.10
+- [x] Commit y push de correcciones
+- [x] Crear release v1.0.10
+
+## Fase 15: Corrección de Error de Base de Datos
+- [x] Revisar server/_core/context.ts
+- [x] Revisar server/initDefaultUser.ts
+- [x] Identificar problema: falta openId en usuario por defecto
+- [x] Agregar openId al usuario por defecto
+- [x] Refactorizar código con constantes
+- [ ] Probar subida de archivo
+- [ ] Commit y push
+- [ ] Crear release v1.0.11

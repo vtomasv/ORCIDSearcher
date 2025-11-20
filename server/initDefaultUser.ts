@@ -2,6 +2,9 @@ import { getDb } from "./db";
 import { users } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 
+const DEFAULT_EMAIL = "default@orcidmanager.local";
+const DEFAULT_OPEN_ID = "default-user-openid";
+
 /**
  * Initialize default user for simplified authentication
  * This creates a default user that everyone uses (no login required)
@@ -12,23 +15,31 @@ export async function initDefaultUser() {
     console.warn("[initDefaultUser] Database not available, skipping default user creation");
     return null;
   }
-
-  const defaultEmail = "default@orcidmanager.local";
   
   try {
-    // Check if default user already exists
-    const existing = await db.select().from(users)
-      .where(eq(users.email, defaultEmail))
+    // Check if default user already exists (by email or openId)
+    const existingByEmail = await db.select().from(users)
+      .where(eq(users.email, DEFAULT_EMAIL))
       .limit(1);
     
-    if (existing.length > 0) {
+    if (existingByEmail.length > 0) {
       console.log("[initDefaultUser] Default user already exists");
-      return existing[0];
+      return existingByEmail[0];
+    }
+
+    const existingByOpenId = await db.select().from(users)
+      .where(eq(users.openId, DEFAULT_OPEN_ID))
+      .limit(1);
+    
+    if (existingByOpenId.length > 0) {
+      console.log("[initDefaultUser] Default user already exists (by openId)");
+      return existingByOpenId[0];
     }
 
     // Create default user
     const result = await db.insert(users).values({
-      email: defaultEmail,
+      email: DEFAULT_EMAIL,
+      openId: DEFAULT_OPEN_ID,
       name: "Default User",
       loginMethod: "internal",
       role: "admin", // Default user is admin
@@ -39,7 +50,7 @@ export async function initDefaultUser() {
     
     // Fetch the created user
     const newUser = await db.select().from(users)
-      .where(eq(users.email, defaultEmail))
+      .where(eq(users.email, DEFAULT_EMAIL))
       .limit(1);
     
     return newUser[0];
@@ -57,11 +68,9 @@ export async function getDefaultUser() {
   if (!db) {
     return null;
   }
-
-  const defaultEmail = "default@orcidmanager.local";
   
   const result = await db.select().from(users)
-    .where(eq(users.email, defaultEmail))
+    .where(eq(users.email, DEFAULT_EMAIL))
     .limit(1);
   
   if (result.length > 0) {
