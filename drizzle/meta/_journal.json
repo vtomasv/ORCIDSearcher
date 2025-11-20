@@ -15,13 +15,6 @@
       "when": 1763213537543,
       "tag": "0001_late_wong",
       "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1732134000000,
-      "tag": "0002_add_upload_session_id",
-      "breakpoints": true
     }
   ]
 }

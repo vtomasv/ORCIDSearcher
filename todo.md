@@ -208,5 +208,13 @@
 - [x] Reescribir migrate.mjs para ejecutar SQL manual además de Drizzle
 - [x] Agregar manejo de errores para columnas duplicadas
 - [x] Agregar logs detallados por statement
+- [x] Commit y push
+- [x] Crear release v1.0.22
+
+## Fase 27: Corrección de Conflicto de Migración y Dashboard
+- [x] Quitar 0002 de _journal.json (Drizzle no debe ejecutarlo)
+- [x] Dejar 0002 solo en manualMigrations array
+- [ ] Diagnosticar por qué dashboard no se actualiza durante búsquedas
+- [ ] Revisar worker para ver si actualiza DB y emite eventos Socket.IO
 - [ ] Commit y push
-- [ ] Crear release v1.0.22
+- [ ] Crear release v1.0.23
