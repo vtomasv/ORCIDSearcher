@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { ArrowLeft, Download, Eye, RefreshCw, Play } from "lucide-react";
+import { ArrowLeft, Download, Eye, RefreshCw, Play, StopCircle, AlertCircle } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { useSocket } from "@/hooks/useSocket";
@@ -16,6 +16,7 @@ export default function Dashboard() {
   const [concurrency, setConcurrency] = useState(5);
   
   const { data: sessions, isLoading, refetch } = trpc.upload.getSessions.useQuery();
+  const { data: queueStatus, refetch: refetchQueueStatus } = trpc.search.getQueueStatus.useQuery();
   
   const startSearchMutation = trpc.search.startAutoSearch.useMutation({
     onSuccess: (data) => {
@@ -42,6 +43,17 @@ export default function Dashboard() {
       }, 1000);
     }
   }, [progress, refetch]);
+
+  const stopSearchMutation = trpc.search.stopSearch.useMutation({
+    onSuccess: (data) => {
+      toast.success(data.message);
+      refetch();
+      refetchQueueStatus();
+    },
+    onError: (error) => {
+      toast.error(`Error al detener búsqueda: ${error.message}`);
+    },
+  });
 
   const exportMutation = trpc.orcid.exportToExcel.useMutation({
     onSuccess: (data) => {
@@ -141,12 +153,24 @@ export default function Dashboard() {
                           <Button 
                             size="sm" 
                             onClick={() => startSearchMutation.mutate({ sessionId: session.id, concurrency })}
-                            disabled={startSearchMutation.isPending}
+                            disabled={startSearchMutation.isPending || (queueStatus?.active || 0) > 0}
                             className="mt-5"
                           >
                             <Play className="mr-2 h-4 w-4" />
                             {startSearchMutation.isPending ? 'Iniciando...' : 'Iniciar Búsqueda'}
                           </Button>
+                          {(queueStatus?.active || 0) > 0 && (
+                            <Button 
+                              size="sm" 
+                              variant="destructive"
+                              onClick={() => stopSearchMutation.mutate()}
+                              disabled={stopSearchMutation.isPending}
+                              className="mt-5"
+                            >
+                              <StopCircle className="mr-2 h-4 w-4" />
+                              {stopSearchMutation.isPending ? 'Deteniendo...' : 'Detener Búsqueda'}
+                            </Button>
+                          )}
                         </div>
                       )}
                     </div>
@@ -207,6 +231,14 @@ export default function Dashboard() {
                         Revisar Casos Pendientes
                       </Button>
                     </Link>
+                    {(progress?.notFound || session.notFoundCount) > 0 && (
+                      <Link href="/not-found-searches">
+                        <Button variant="outline" size="sm">
+                          <AlertCircle className="mr-2 h-4 w-4" />
+                          Ver No Encontrados ({progress?.notFound || session.notFoundCount})
+                        </Button>
+                      </Link>
+                    )}
                   </div>
                 </CardContent>
               </Card>

@@ -262,3 +262,78 @@ export async function getInstitutionByCanonical(canonical: string) {
   
   return result.length > 0 ? result[0] : undefined;
 }
+
+/**
+ * Get all "not found" searches with researcher details
+ */
+export async function getNotFoundSearches(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select({
+    search: orcidSearches,
+    researcher: researchers
+  })
+  .from(orcidSearches)
+  .innerJoin(researchers, eq(orcidSearches.researcherId, researchers.id))
+  .where(
+    and(
+      eq(researchers.userId, userId),
+      eq(orcidSearches.status, 'not_found')
+    )
+  );
+}
+
+/**
+ * Update researcher data and reset search status to pending
+ */
+export async function updateResearcherAndRequeue(
+  researcherId: number,
+  updates: {
+    firstName?: string;
+    lastName?: string;
+    institution?: string;
+    email?: string;
+  }
+) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+
+  // Update researcher
+  const updateData: any = {
+    updatedAt: new Date()
+  };
+
+  if (updates.firstName) {
+    updateData.firstName = updates.firstName;
+    updateData.firstNameNormalized = updates.firstName.toLowerCase().trim();
+  }
+  if (updates.lastName) {
+    updateData.lastName = updates.lastName;
+    updateData.lastNameNormalized = updates.lastName.toLowerCase().trim();
+  }
+  if (updates.institution !== undefined) {
+    updateData.institution = updates.institution;
+  }
+  if (updates.email !== undefined) {
+    updateData.email = updates.email;
+  }
+
+  await db.update(researchers)
+    .set(updateData)
+    .where(eq(researchers.id, researcherId));
+
+  // Reset search status to pending
+  await db.update(orcidSearches)
+    .set({
+      status: 'pending',
+      searchUrl: null,
+      resultCount: 0,
+      strategyUsed: null,
+      multipleResults: null,
+      updatedAt: new Date()
+    })
+    .where(eq(orcidSearches.researcherId, researcherId));
+
+  return true;
+}

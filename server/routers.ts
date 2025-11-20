@@ -16,11 +16,13 @@ import {
   updateOrcidSearch,
   getAllInstitutions,
   createInstitution,
-  getResearchersByUser
+  getResearchersByUser,
+  getNotFoundSearches,
+  updateResearcherAndRequeue
 } from "./db";
 import { normalizeText, getInstitutionVariants, buildOrcidSearchUrl } from "./utils";
 import ExcelJS from 'exceljs';
-import { orcidSearchQueue, initProgress, getProgress } from './queueService';
+import { orcidSearchQueue, initProgress, getProgress, pauseQueue, resumeQueue, getQueueStatus, stopQueue } from './queueService';
 
 export const appRouter = router({
   system: systemRouter,
@@ -167,6 +169,27 @@ export const appRouter = router({
 
   // ORCID searches management
   orcid: router({
+    // Get not found searches with details
+    getNotFound: protectedProcedure.query(async ({ ctx }) => {
+      return await getNotFoundSearches(ctx.user.id);
+    }),
+    
+    // Update researcher and requeue for search
+    updateAndRequeue: protectedProcedure
+      .input(z.object({
+        researcherId: z.number(),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+        institution: z.string().optional(),
+        email: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const { researcherId, ...updates } = input;
+        await updateResearcherAndRequeue(researcherId, updates);
+        
+        return { success: true, message: 'Investigador actualizado y re-encolado para búsqueda' };
+      }),
+    
     // Get searches needing review
     getNeedingReview: protectedProcedure.query(async ({ ctx }) => {
       return await getOrcidSearchesNeedingReview(ctx.user.id);
@@ -313,6 +336,26 @@ export const appRouter = router({
     getProgress: protectedProcedure.query(async ({ ctx }) => {
       const progress = getProgress(ctx.user.id);
       return progress;
+    }),
+    
+    // Pause search queue
+    pauseSearch: protectedProcedure.mutation(async () => {
+      return await pauseQueue();
+    }),
+    
+    // Resume search queue
+    resumeSearch: protectedProcedure.mutation(async () => {
+      return await resumeQueue();
+    }),
+    
+    // Stop search queue (pause and clear)
+    stopSearch: protectedProcedure.mutation(async () => {
+      return await stopQueue();
+    }),
+    
+    // Get queue status
+    getQueueStatus: protectedProcedure.query(async () => {
+      return await getQueueStatus();
     }),
   }),
 

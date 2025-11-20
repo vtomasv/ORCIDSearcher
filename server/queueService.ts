@@ -188,3 +188,65 @@ process.on('SIGTERM', async () => {
 });
 
 export { worker };
+
+/**
+ * Pause the queue - stops processing new jobs
+ */
+export async function pauseQueue() {
+  await orcidSearchQueue.pause();
+  console.log('[Queue] Queue paused');
+  return { success: true, message: 'Búsqueda pausada' };
+}
+
+/**
+ * Resume the queue - starts processing jobs again
+ */
+export async function resumeQueue() {
+  await orcidSearchQueue.resume();
+  console.log('[Queue] Queue resumed');
+  return { success: true, message: 'Búsqueda reanudada' };
+}
+
+/**
+ * Get queue status
+ */
+export async function getQueueStatus() {
+  const isPaused = await orcidSearchQueue.isPaused();
+  const jobCounts = await orcidSearchQueue.getJobCounts('waiting', 'active', 'completed', 'failed');
+  
+  return {
+    isPaused,
+    waiting: jobCounts.waiting,
+    active: jobCounts.active,
+    completed: jobCounts.completed,
+    failed: jobCounts.failed,
+  };
+}
+
+/**
+ * Stop all active jobs and clear queue
+ */
+export async function stopQueue() {
+  await orcidSearchQueue.pause();
+  
+  // Get all active and waiting jobs
+  const activeJobs = await orcidSearchQueue.getActive();
+  const waitingJobs = await orcidSearchQueue.getWaiting();
+  
+  // Remove all waiting jobs
+  for (const job of waitingJobs) {
+    await job.remove();
+  }
+  
+  // Mark active jobs as failed (they will be retried or removed based on settings)
+  for (const job of activeJobs) {
+    await job.moveToFailed({ message: 'Queue stopped by user' }, true);
+  }
+  
+  console.log('[Queue] Queue stopped and cleared');
+  return { 
+    success: true, 
+    message: 'Búsqueda detenida', 
+    removedJobs: waitingJobs.length + activeJobs.length 
+  };
+}

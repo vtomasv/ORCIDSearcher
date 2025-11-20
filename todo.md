@@ -228,5 +228,30 @@
 - [x] Verificar que se une al room correcto
 - [x] Instalar Redis localmente para desarrollo
 - [x] Modificar Dashboard para usar progress de Socket.IO en tiempo real
+- [x] Commit y push
+- [x] Crear release v1.0.24
+
+## Fase 29: Vista Detallada de No Encontrados con Re-encolado
+- [x] Crear endpoint para obtener detalles de búsquedas no encontradas
+- [x] Incluir en respuesta: nombre buscado, institución, URL de búsqueda, resultados devueltos
+- [x] Crear endpoint para actualizar datos de investigador y re-encolar
+- [x] Crear página NotFoundSearches.tsx para mostrar lista de no encontrados
+- [x] Implementar formulario de edición inline para corregir datos
+- [x] Agregar botón "Re-encolar" para cada investigador
+- [x] Mostrar URL de búsqueda original y resultados
+- [x] Agregar navegación desde Dashboard a vista de no encontrados
+
+## Fase 30: Botón para Detener Búsqueda
+- [x] Implementar endpoint para pausar/detener worker de BullMQ
+- [x] Agregar método para pausar la cola en queueService
+- [x] Crear botón "Detener Búsqueda" en Dashboard
+- [x] Mostrar estado de la búsqueda (en progreso/detenida)
+- [x] Botón se muestra solo cuando hay trabajos activos
+- [x] Actualizar UI para reflejar estado de pausa
+
+## Fase 31: Testing y Release v1.0.25
+- [ ] Probar vista de no encontrados
+- [ ] Probar corrección y re-encolado
+- [ ] Probar detener y reanudar búsqueda
 - [ ] Commit y push
-- [ ] Crear release v1.0.24
+- [ ] Crear release v1.0.25
