@@ -58,8 +58,9 @@ services:
     restart: unless-stopped
     ports:
       - "${APP_PORT:-3000}:3000"
-    environment:      # Database
-      DATABASE_URL: mysql://\${MYSQL_USER:-orcid_user}:\${MYSQL_PASSWORD:-orcid_password}@db:3306/\${MYSQL_DATABASE:-orcid_manager}
+    environment:
+      # Database
+      DATABASE_URL: mysql://${MYSQL_USER:-orcid_user}:${MYSQL_PASSWORD:-orcid_password}@db:3306/${MYSQL_DATABASE:-orcid_manager}
       
       # Redis
       REDIS_HOST: redis

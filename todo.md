@@ -141,5 +141,12 @@
 - [x] Agregar importación de initDefaultUser
 - [x] Agregar llamada a initDefaultUser() al inicio de startServer()
 - [x] Agregar logs para confirmar inicialización
+- [x] Commit y push
+- [x] Crear release v1.0.14
+
+## Fase 19: Corrección de DATABASE_URL en Docker Compose
+- [x] Revisar docker-compose.yml línea de DATABASE_URL
+- [x] Identificar problema: \$ en lugar de $ causaba literal \orcid_user
+- [x] Corregir escape de variables (cambiar \$ por $)
 - [ ] Commit y push
-- [ ] Crear release v1.0.14
+- [ ] Crear release v1.0.15
