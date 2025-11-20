@@ -165,6 +165,17 @@ export async function getResearchersBySession(userId: number, limit = 100) {
     .limit(limit);
 }
 
+export async function getResearcherById(researcherId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(researchers)
+    .where(eq(researchers.id, researcherId))
+    .limit(1);
+  
+  return result.length > 0 ? result[0] : undefined;
+}
+
 // ORCID Searches
 export async function createOrcidSearch(search: InsertOrcidSearch) {
   const db = await getDb();
