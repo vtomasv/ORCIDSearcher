@@ -79,3 +79,4 @@
 
 ## Fase 12: Fixes Post-Release
 - [x] Fix Dockerfile: Eliminar copia de directorio storage inexistente
+- [x] Fix Dockerfile: Agregar copia de directorio patches antes de pnpm install
