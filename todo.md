@@ -114,6 +114,16 @@
 - [x] Identificar problema: falta openId en usuario por defecto
 - [x] Agregar openId al usuario por defecto
 - [x] Refactorizar código con constantes
-- [ ] Probar subida de archivo
+- [x] Probar subida de archivo
+- [x] Commit y push
+- [x] Crear release v1.0.11
+
+## Fase 16: Investigación de Error Persistente de Base de Datos
+- [x] Revisar mensaje de error en detalle
+- [x] Verificar migraciones de base de datos
+- [x] Identificar desincronización entre esquema y migración
+- [x] Revertir esquema para que coincida con migración original (openId NOT NULL)
+- [x] Actualizar initDefaultUser para usar openId como identificador principal
+- [ ] Probar creación de usuario y subida de archivo
 - [ ] Commit y push
-- [ ] Crear release v1.0.11
+- [ ] Crear release v1.0.12

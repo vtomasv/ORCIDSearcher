@@ -6,14 +6,11 @@ import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, boolean } from "d
  */
 export const users = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
-  // Email is now the primary identifier for internal auth
-  email: varchar("email", { length: 320 }).notNull().unique(),
-  // Password hash for internal authentication (nullable for OAuth users)
-  passwordHash: varchar("passwordHash", { length: 255 }),
+  // openId is the primary identifier (matches original migration)
+  openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
-  // OAuth fields (optional, for backwards compatibility)
-  openId: varchar("openId", { length: 64 }).unique(),
-  loginMethod: varchar("loginMethod", { length: 64 }).default("internal"),
+  email: varchar("email", { length: 320 }),
+  loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

@@ -2,8 +2,8 @@ import { getDb } from "./db";
 import { users } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 
-const DEFAULT_EMAIL = "default@orcidmanager.local";
 const DEFAULT_OPEN_ID = "default-user-openid";
+const DEFAULT_EMAIL = "default@orcidmanager.local";
 
 /**
  * Initialize default user for simplified authentication
@@ -17,23 +17,14 @@ export async function initDefaultUser() {
   }
   
   try {
-    // Check if default user already exists (by email or openId)
-    const existingByEmail = await db.select().from(users)
-      .where(eq(users.email, DEFAULT_EMAIL))
-      .limit(1);
-    
-    if (existingByEmail.length > 0) {
-      console.log("[initDefaultUser] Default user already exists");
-      return existingByEmail[0];
-    }
-
-    const existingByOpenId = await db.select().from(users)
+    // Check if default user already exists by openId
+    const existing = await db.select().from(users)
       .where(eq(users.openId, DEFAULT_OPEN_ID))
       .limit(1);
     
-    if (existingByOpenId.length > 0) {
-      console.log("[initDefaultUser] Default user already exists (by openId)");
-      return existingByOpenId[0];
+    if (existing.length > 0) {
+      console.log("[initDefaultUser] Default user already exists");
+      return existing[0];
     }
 
     // Create default user
@@ -50,7 +41,7 @@ export async function initDefaultUser() {
     
     // Fetch the created user
     const newUser = await db.select().from(users)
-      .where(eq(users.email, DEFAULT_EMAIL))
+      .where(eq(users.openId, DEFAULT_OPEN_ID))
       .limit(1);
     
     return newUser[0];
@@ -70,7 +61,7 @@ export async function getDefaultUser() {
   }
   
   const result = await db.select().from(users)
-    .where(eq(users.email, DEFAULT_EMAIL))
+    .where(eq(users.openId, DEFAULT_OPEN_ID))
     .limit(1);
   
   if (result.length > 0) {
