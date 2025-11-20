@@ -98,6 +98,7 @@ export const appRouter = router({
           
           const researcherId = await createResearcher({
             userId,
+            uploadSessionId: sessionId,
             firstName,
             lastName,
             firstNameNormalized: normalizeText(firstName),

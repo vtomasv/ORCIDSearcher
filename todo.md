@@ -189,5 +189,14 @@
 ## Fase 24: Corrección de Condición del Botón de Inicio
 - [x] Cambiar condición del botón - eliminar requisito de status='completed'
 - [x] Botón ahora aparece cuando totalResearchers > procesados
+- [x] Commit y push
+- [x] Crear release v1.0.20
+
+## Fase 25: Corrección de Creación de Registros de Búsqueda
+- [x] Revisar procedimiento processExcel - sí crea orcid_searches
+- [x] Identificar problema: falta uploadSessionId en tabla researchers
+- [x] Agregar campo uploadSessionId a schema.ts
+- [x] Actualizar processExcel para pasar uploadSessionId
+- [x] Crear migración SQL para agregar columna
 - [ ] Commit y push
-- [ ] Crear release v1.0.20
+- [ ] Crear release v1.0.21

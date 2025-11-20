@@ -42,6 +42,7 @@ export type InsertInstitution = typeof institutions.$inferInsert;
 export const researchers = mysqlTable("researchers", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull(), // Owner of this upload
+  uploadSessionId: int("uploadSessionId").notNull(), // Link to upload session
   firstName: varchar("firstName", { length: 255 }).notNull(),
   lastName: varchar("lastName", { length: 255 }).notNull(),
   firstNameNormalized: varchar("firstNameNormalized", { length: 255 }).notNull(),
