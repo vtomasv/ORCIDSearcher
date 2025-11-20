@@ -7,17 +7,20 @@ import { ArrowLeft, Download, Eye, RefreshCw, Play } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { useSocket } from "@/hooks/useSocket";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function Dashboard() {
   const { progress } = useSocket();
+  const [concurrency, setConcurrency] = useState(5);
   
   const { data: sessions, isLoading, refetch } = trpc.upload.getSessions.useQuery();
   
   const startSearchMutation = trpc.search.startAutoSearch.useMutation({
     onSuccess: (data) => {
       if (data.success) {
-        toast.success(data.message);
+        toast.success(data.message + ` (${concurrency} workers en paralelo)`);
         // Refetch sessions to update counts
         setTimeout(() => refetch(), 1000);
       } else {
@@ -121,14 +124,30 @@ export default function Dashboard() {
                          session.status === 'failed' ? 'Fallido' : 'Subiendo'}
                       </Badge>
                       {session.status === 'completed' && session.totalResearchers > session.foundCount + session.multipleCount + session.notFoundCount && (
-                        <Button 
-                          size="sm" 
-                          onClick={() => startSearchMutation.mutate({ sessionId: session.id })}
-                          disabled={startSearchMutation.isPending}
-                        >
-                          <Play className="mr-2 h-4 w-4" />
-                          {startSearchMutation.isPending ? 'Iniciando...' : 'Buscar ORCIDs'}
-                        </Button>
+                        <div className="flex gap-2 items-center">
+                          <div className="flex flex-col gap-1">
+                            <Label htmlFor="concurrency" className="text-xs">Workers</Label>
+                            <Input
+                              id="concurrency"
+                              type="number"
+                              min="1"
+                              max="20"
+                              value={concurrency}
+                              onChange={(e) => setConcurrency(parseInt(e.target.value) || 5)}
+                              className="w-20 h-8 text-sm"
+                              disabled={startSearchMutation.isPending}
+                            />
+                          </div>
+                          <Button 
+                            size="sm" 
+                            onClick={() => startSearchMutation.mutate({ sessionId: session.id, concurrency })}
+                            disabled={startSearchMutation.isPending}
+                            className="mt-5"
+                          >
+                            <Play className="mr-2 h-4 w-4" />
+                            {startSearchMutation.isPending ? 'Iniciando...' : 'Iniciar Búsqueda'}
+                          </Button>
+                        </div>
                       )}
                     </div>
                   </div>

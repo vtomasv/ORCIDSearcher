@@ -252,6 +252,7 @@ export const appRouter = router({
     startAutoSearch: protectedProcedure
       .input(z.object({
         sessionId: z.number(),
+        concurrency: z.number().min(1).max(20).optional().default(5),
       }))
       .mutation(async ({ ctx, input }) => {
         const userId = ctx.user.id;
@@ -272,26 +273,37 @@ export const appRouter = router({
         // Get all institutions for variants
         const institutions = await getAllInstitutions();
         
-        // Add jobs to queue
-        console.log(`[Queue] Adding ${pendingSearches.length} jobs to queue for user ${userId}`);
-        for (const { search, researcher } of pendingSearches) {
-          const institutionVariants = researcher.institution 
-            ? getInstitutionVariants(researcher.institution, institutions)
-            : [];
+        // Add jobs to queue with rate limiting based on concurrency
+        console.log(`[Queue] Adding ${pendingSearches.length} jobs to queue for user ${userId} with concurrency ${input.concurrency}`);
+        
+        // Add jobs in batches based on concurrency to control processing rate
+        const batchSize = input.concurrency;
+        for (let i = 0; i < pendingSearches.length; i += batchSize) {
+          const batch = pendingSearches.slice(i, i + batchSize);
           
-          const job = await orcidSearchQueue.add('search-orcid', {
-            searchId: search.id,
-            researcherId: researcher.id,
-            userId,
-            institutionVariants,
-          });
-          console.log(`[Queue] Added job ${job.id} for search ${search.id}`);
+          for (const { search, researcher } of batch) {
+            const institutionVariants = researcher.institution 
+              ? getInstitutionVariants(researcher.institution, institutions)
+              : [];
+            
+            const job = await orcidSearchQueue.add('search-orcid', {
+              searchId: search.id,
+              researcherId: researcher.id,
+              userId,
+              institutionVariants,
+              concurrency: input.concurrency,
+            }, {
+              // Add delay between batches to control rate
+              delay: i > 0 ? 1000 : 0, // 1 second delay between batches
+            });
+            console.log(`[Queue] Added job ${job.id} for search ${search.id}`);
+          }
         }
-        console.log(`[Queue] All ${pendingSearches.length} jobs added successfully`);
+        console.log(`[Queue] All ${pendingSearches.length} jobs added successfully with concurrency ${input.concurrency}`);
         
         return { 
           success: true, 
-          message: `Started automatic search for ${pendingSearches.length} researchers`,
+          message: `Iniciando búsqueda automática para ${pendingSearches.length} investigadores`,
           total: pendingSearches.length
         };
       }),

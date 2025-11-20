@@ -14,6 +14,7 @@ interface SearchJobData {
   researcherId: number;
   userId: number;
   institutionVariants?: string[];
+  concurrency?: number;
 }
 
 interface SearchProgress {
@@ -96,7 +97,10 @@ console.log('[Worker] Initializing ORCID search worker...');
 const worker = new Worker<SearchJobData>(
   'orcid-search',
   async (job: Job<SearchJobData>) => {
-    const { searchId, researcherId, userId, institutionVariants } = job.data;
+    const { searchId, researcherId, userId, institutionVariants, concurrency = 5 } = job.data;
+    
+    // Log concurrency for this job
+    console.log(`[Worker] Processing job ${job.id} with concurrency setting: ${concurrency}`);
     
     console.log(`Processing search ${searchId} for researcher ${researcherId}`);
     
@@ -153,7 +157,7 @@ const worker = new Worker<SearchJobData>(
   },
   {
     connection,
-    concurrency: 5, // Process 5 searches in parallel
+    concurrency: 20, // Maximum concurrency - will be controlled by job rate
   }
 );
 

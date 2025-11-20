@@ -171,6 +171,17 @@
 - [x] Agregar logs de inicialización del worker (ready, error events)
 - [x] Agregar logs cuando se agregan trabajos a la cola
 - [x] Agregar logs para cada job agregado
-- [ ] Probar con logs mejorados para identificar el problema
+- [x] Probar con logs mejorados para identificar el problema
+- [x] Commit y push
+- [x] Crear release v1.0.18
+
+## Fase 23: Botón de Inicio Manual con Control de Workers
+- [x] Agregar input numérico para configurar workers en paralelo (1-20)
+- [x] Modificar botón existente "Buscar ORCIDs" a "Iniciar Búsqueda"
+- [x] Botón ya se muestra solo cuando hay investigadores pendientes
+- [x] Botón ya se deshabilita durante procesamiento
+- [x] Actualizar backend para recibir parámetro de concurrencia
+- [x] Implementar rate limiting por batches
+- [x] Agregar logs de concurrencia
 - [ ] Commit y push
-- [ ] Crear release v1.0.18
+- [ ] Crear release v1.0.19
