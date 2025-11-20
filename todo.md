@@ -81,3 +81,4 @@
 - [x] Fix Dockerfile: Eliminar copia de directorio storage inexistente
 - [x] Fix Dockerfile: Agregar copia de directorio patches antes de pnpm install
 - [x] Fix: Crear archivo client/src/lib/trpc.ts faltante
+- [x] Fix: Crear archivo client/src/lib/utils.ts faltante
