@@ -75,3 +75,7 @@
 - [x] Commit y push de cambios con búsqueda automática
 - [x] Crear tag v1.0.0-rc2
 - [x] Publicar release en GitHub con notas completas
+
+
+## Fase 12: Fixes Post-Release
+- [x] Fix Dockerfile: Eliminar copia de directorio storage inexistente

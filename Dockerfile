@@ -37,7 +37,6 @@ COPY --from=builder /app/drizzle ./drizzle
 # Copy necessary files
 COPY server ./server
 COPY shared ./shared
-COPY storage ./storage
 
 # Expose port
 EXPOSE 3000
