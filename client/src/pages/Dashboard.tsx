@@ -1,9 +1,7 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { ArrowLeft, Download, Eye, RefreshCw, Play } from "lucide-react";
 import { Link } from "wouter";
@@ -12,12 +10,9 @@ import { useSocket } from "@/hooks/useSocket";
 import { useEffect } from "react";
 
 export default function Dashboard() {
-  const { user, loading: authLoading, isAuthenticated } = useAuth();
   const { progress } = useSocket();
   
-  const { data: sessions, isLoading, refetch } = trpc.upload.getSessions.useQuery(undefined, {
-    enabled: isAuthenticated,
-  });
+  const { data: sessions, isLoading, refetch } = trpc.upload.getSessions.useQuery();
   
   const startSearchMutation = trpc.search.startAutoSearch.useMutation({
     onSuccess: (data) => {
@@ -59,36 +54,7 @@ export default function Dashboard() {
     },
   });
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Cargando...</p>
-        </div>
-      </div>
-    );
-  }
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Acceso Requerido</CardTitle>
-            <CardDescription>
-              Debes iniciar sesión para ver el dashboard
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild className="w-full">
-              <a href={getLoginUrl()}>Iniciar Sesión</a>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   const handleExport = () => {
     exportMutation.mutate({});

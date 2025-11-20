@@ -1,11 +1,9 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { ArrowLeft, ExternalLink, Check, X } from "lucide-react";
 import { Link } from "wouter";
@@ -13,13 +11,10 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 export default function Review() {
-  const { user, loading: authLoading, isAuthenticated } = useAuth();
   const [selectedOrcid, setSelectedOrcid] = useState<Record<number, string>>({});
   const [notes, setNotes] = useState<Record<number, string>>({});
   
-  const { data: needsReview, isLoading, refetch } = trpc.orcid.getNeedingReview.useQuery(undefined, {
-    enabled: isAuthenticated,
-  });
+  const { data: needsReview, isLoading, refetch } = trpc.orcid.getNeedingReview.useQuery();
 
   const updateMutation = trpc.orcid.updateSearch.useMutation({
     onSuccess: () => {
@@ -31,36 +26,7 @@ export default function Review() {
     },
   });
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Cargando...</p>
-        </div>
-      </div>
-    );
-  }
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Acceso Requerido</CardTitle>
-            <CardDescription>
-              Debes iniciar sesión para revisar casos
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild className="w-full">
-              <a href={getLoginUrl()}>Iniciar Sesión</a>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   const handleApprove = (searchId: number, orcid?: string, status: 'found' | 'not_found' | 'manual' = 'manual') => {
     updateMutation.mutate({
