@@ -8,7 +8,6 @@ import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
-import '../queueService'; // Initialize queue worker
 import { initDefaultUser } from '../initDefaultUser';
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -49,6 +48,9 @@ async function startServer() {
   
   // Make io available globally for queue service
   (global as any).io = io;
+  
+  // Initialize queue worker AFTER global.io is set
+  await import('../queueService');
   
   // Socket.IO connection handling
   io.on('connection', (socket) => {

@@ -214,7 +214,9 @@
 ## Fase 27: Corrección de Conflicto de Migración y Dashboard
 - [x] Quitar 0002 de _journal.json (Drizzle no debe ejecutarlo)
 - [x] Dejar 0002 solo en manualMigrations array
-- [ ] Diagnosticar por qué dashboard no se actualiza durante búsquedas
-- [ ] Revisar worker para ver si actualiza DB y emite eventos Socket.IO
+- [x] Diagnosticar por qué dashboard no se actualiza durante búsquedas
+- [x] Identificar problema: queueService se importa ANTES de asignar global.io
+- [x] Mover importación de queueService después de asignar global.io
+- [x] Usar dynamic import para garantizar orden correcto
 - [ ] Commit y push
 - [ ] Crear release v1.0.23
