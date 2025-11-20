@@ -84,3 +84,4 @@
 - [x] Fix: Crear archivo client/src/lib/utils.ts faltante
 - [x] Fix: Agregar función getResearcherById a server/db.ts
 - [x] Fix: Hacer importación de vite dinámica para evitar incluirla en producción
+- [x] Fix: Eliminar importación de vite.config para evitar bundlear plugins
