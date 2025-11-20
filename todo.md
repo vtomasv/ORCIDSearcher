@@ -86,3 +86,14 @@
 - [x] Fix: Hacer importación de vite dinámica para evitar incluirla en producción
 - [x] Fix: Eliminar importación de vite.config para evitar bundlear plugins
 - [x] Fix: Agregar valores por defecto para OAuth URL para evitar TypeError
+
+
+## Fase 13: Sistema de Autenticación Simplificado (Sin Login)
+- [x] Actualizar esquema de base de datos
+- [x] Instalar bcrypt
+- [x] Crear usuario por defecto automáticamente al iniciar
+- [x] Modificar contexto para usar usuario por defecto siempre
+- [x] Actualizar frontend para eliminar botón de login
+- [x] Eliminar dependencias de OAuth del frontend
+- [ ] Aplicar migraciones de base de datos
+- [ ] Probar acceso directo sin login

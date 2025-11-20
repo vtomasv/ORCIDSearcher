@@ -1,23 +1,10 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
+import { APP_TITLE } from "@/const";
 import { Upload, Search, FileSpreadsheet, CheckCircle } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Home() {
-  const { user, loading, isAuthenticated, logout } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Cargando...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -31,20 +18,9 @@ export default function Home() {
             <h1 className="text-2xl font-bold text-primary">{APP_TITLE}</h1>
           </div>
           <div className="flex items-center gap-4">
-            {isAuthenticated ? (
-              <>
-                <span className="text-sm text-muted-foreground">
-                  Hola, {user?.name || user?.email}
-                </span>
-                <Button variant="outline" onClick={logout}>
-                  Cerrar Sesión
-                </Button>
-              </>
-            ) : (
-              <Button asChild>
-                <a href={getLoginUrl()}>Iniciar Sesión</a>
-              </Button>
-            )}
+            <span className="text-sm text-muted-foreground">
+              ORCID Manager
+            </span>
           </div>
         </div>
       </header>
@@ -113,31 +89,21 @@ export default function Home() {
         </div>
 
         {/* CTA */}
-        {isAuthenticated ? (
-          <div className="text-center">
-            <Link href="/upload">
-              <Button size="lg" className="text-lg px-8 py-6">
-                <Upload className="mr-2 h-5 w-5" />
-                Comenzar Ahora
+        <div className="text-center">
+          <Link href="/upload">
+            <Button size="lg" className="text-lg px-8 py-6">
+              <Upload className="mr-2 h-5 w-5" />
+              Comenzar Ahora
+            </Button>
+          </Link>
+          <div className="mt-4">
+            <Link href="/dashboard">
+              <Button variant="outline" size="lg" className="text-lg px-8 py-6">
+                Ver Dashboard
               </Button>
             </Link>
-            <div className="mt-4">
-              <Link href="/dashboard">
-                <Button variant="outline" size="lg" className="text-lg px-8 py-6">
-                  Ver Dashboard
-                </Button>
-              </Link>
-            </div>
           </div>
-        ) : (
-          <div className="text-center">
-            <Button size="lg" className="text-lg px-8 py-6" asChild>
-              <a href={getLoginUrl()}>
-                Iniciar Sesión para Comenzar
-              </a>
-            </Button>
-          </div>
-        )}
+        </div>
       </main>
 
       {/* Footer */}
