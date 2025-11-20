@@ -156,31 +156,31 @@ export default function Dashboard() {
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
                     <div className="text-center p-4 bg-gray-50 rounded-lg">
                       <div className="text-2xl font-bold text-gray-900">
-                        {session.totalResearchers}
+                        {progress?.total || session.totalResearchers}
                       </div>
                       <div className="text-sm text-gray-600">Total</div>
                     </div>
                     <div className="text-center p-4 bg-green-50 rounded-lg">
                       <div className="text-2xl font-bold text-green-600">
-                        {session.foundCount}
+                        {progress?.found || session.foundCount}
                       </div>
                       <div className="text-sm text-gray-600">Encontrados</div>
                     </div>
                     <div className="text-center p-4 bg-orange-50 rounded-lg">
                       <div className="text-2xl font-bold text-orange-600">
-                        {session.multipleCount}
+                        {progress?.multiple || session.multipleCount}
                       </div>
                       <div className="text-sm text-gray-600">Múltiples</div>
                     </div>
                     <div className="text-center p-4 bg-red-50 rounded-lg">
                       <div className="text-2xl font-bold text-red-600">
-                        {session.notFoundCount}
+                        {progress?.notFound || session.notFoundCount}
                       </div>
                       <div className="text-sm text-gray-600">No encontrados</div>
                     </div>
                     <div className="text-center p-4 bg-blue-50 rounded-lg">
                       <div className="text-2xl font-bold text-blue-600">
-                        {session.processedCount}
+                        {progress?.processed || session.processedCount}
                       </div>
                       <div className="text-sm text-gray-600">Procesados</div>
                     </div>
@@ -190,12 +190,12 @@ export default function Dashboard() {
                   <div className="mb-4">
                     <div className="flex justify-between text-sm text-gray-600 mb-1">
                       <span>Progreso</span>
-                      <span>{Math.round(((session.processedCount || 0) / session.totalResearchers) * 100)}%</span>
+                      <span>{Math.round((((progress?.processed || session.processedCount) || 0) / (progress?.total || session.totalResearchers)) * 100)}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
                         className="bg-primary h-2 rounded-full transition-all"
-                        style={{ width: `${((session.processedCount || 0) / session.totalResearchers) * 100}%` }}
+                        style={{ width: `${(((progress?.processed || session.processedCount) || 0) / (progress?.total || session.totalResearchers)) * 100}%` }}
                       ></div>
                     </div>
                   </div>

@@ -218,5 +218,15 @@
 - [x] Identificar problema: queueService se importa ANTES de asignar global.io
 - [x] Mover importación de queueService después de asignar global.io
 - [x] Usar dynamic import para garantizar orden correcto
+- [x] Commit y push
+- [x] Crear release v1.0.23
+
+## Fase 28: Diagnóstico de Socket.IO en Frontend
+- [x] Revisar Dashboard.tsx para ver si usa Socket.IO
+- [x] Verificar que se conecta a Socket.IO
+- [x] Verificar que escucha evento 'search-progress'
+- [x] Verificar que se une al room correcto
+- [x] Instalar Redis localmente para desarrollo
+- [x] Modificar Dashboard para usar progress de Socket.IO en tiempo real
 - [ ] Commit y push
-- [ ] Crear release v1.0.23
+- [ ] Crear release v1.0.24
