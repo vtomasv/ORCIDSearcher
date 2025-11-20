@@ -63,6 +63,7 @@ COPY --from=builder /app/drizzle ./drizzle
 # Copy necessary files
 COPY server ./server
 COPY shared ./shared
+COPY scripts ./scripts
 
 # Expose port
 EXPOSE 3000
@@ -71,4 +72,5 @@ EXPOSE 3000
 ENV NODE_ENV=production
 
 # Start the application
-CMD ["node", "dist/index.js"]
+# Run migrations first, then start the server
+CMD ["sh", "-c", "node scripts/migrate.mjs && node dist/index.js"]

@@ -148,5 +148,13 @@
 - [x] Revisar docker-compose.yml línea de DATABASE_URL
 - [x] Identificar problema: \$ en lugar de $ causaba literal \orcid_user
 - [x] Corregir escape de variables (cambiar \$ por $)
+- [x] Commit y push
+- [x] Crear release v1.0.15
+
+## Fase 20: Ejecución Automática de Migraciones de Base de Datos
+- [x] Crear script de migración (scripts/migrate.mjs)
+- [x] Copiar scripts al contenedor Docker
+- [x] Modificar CMD para ejecutar migraciones antes de iniciar servidor
+- [x] Agregar logs para confirmar migraciones
 - [ ] Commit y push
-- [ ] Crear release v1.0.15
+- [ ] Crear release v1.0.16
