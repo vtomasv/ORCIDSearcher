@@ -286,5 +286,12 @@
 - [x] Corregir schema.ts para que campos opcionales tengan .default(null)
 - [x] Código de inserción ya estaba correcto (solo pasa campos necesarios)
 - [x] Eliminar script de migración manual (ya no necesario)
+- [x] Commit y push
+- [x] Crear release v1.0.29
+
+## Fase 36: Fix Script de Migración - Índice Duplicado
+- [x] Localizar script 0002_add_upload_session_id.sql
+- [x] Modificar migrate.mjs para ignorar error ER_DUP_KEYNAME
+- [x] Hacer script idempotente
 - [ ] Commit y push
-- [ ] Crear release v1.0.29
+- [ ] Crear release v1.0.30

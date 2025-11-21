@@ -60,6 +60,10 @@ async function runMigrations() {
               // Ignore "Duplicate column" errors (migration already applied)
               if (error.code === 'ER_DUP_FIELDNAME') {
                 console.log(`[Migration] ⊙ Column already exists, skipping`);
+              }
+              // Ignore "Duplicate key name" errors (index already exists)
+              else if (error.code === 'ER_DUP_KEYNAME') {
+                console.log(`[Migration] ⊙ Index already exists, skipping`);
               } else {
                 throw error;
               }
