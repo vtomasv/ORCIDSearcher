@@ -116,10 +116,10 @@ export const appRouter = router({
           
           await createOrcidSearch({
             researcherId,
-            status: 'pending',
-            resultCount: 0,
+            // status: 'pending' is the default, no need to pass it
+            // resultCount: 0 is the default, no need to pass it
             searchUrl,
-            needsReview: false,
+            // needsReview: false is the default, no need to pass it
           });
         }
         

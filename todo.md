@@ -293,5 +293,12 @@
 - [x] Localizar script 0002_add_upload_session_id.sql
 - [x] Modificar migrate.mjs para ignorar error ER_DUP_KEYNAME
 - [x] Hacer script idempotente
+- [x] Commit y push
+- [x] Crear release v1.0.30
+
+## Fase 37: Fix INSERT con Valores Default en Drizzle
+- [x] Revisar código de inserción en routers.ts
+- [x] Identificar por qué Drizzle genera SQL con 'default' (pasaba valores por defecto explícitamente)
+- [x] Eliminar campos con valores por defecto del objeto de inserción
 - [ ] Commit y push
-- [ ] Crear release v1.0.30
+- [ ] Crear release v1.0.31
