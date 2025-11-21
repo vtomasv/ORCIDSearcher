@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { trpc } from "@/lib/trpc";
-import { ArrowLeft, Edit, RefreshCw, ExternalLink } from "lucide-react";
+import { ArrowLeft, Edit, RefreshCw, ExternalLink, FileText } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -13,6 +13,7 @@ import { useState } from "react";
 export default function NotFoundSearches() {
   const { data: notFoundSearches, isLoading, refetch } = trpc.orcid.getNotFound.useQuery();
   const [editingResearcher, setEditingResearcher] = useState<any>(null);
+  const [viewingLogs, setViewingLogs] = useState<any>(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -128,17 +129,18 @@ export default function NotFoundSearches() {
                         )}
                       </TableCell>
                       <TableCell>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleEdit(researcher)}
-                            >
-                              <Edit className="mr-2 h-4 w-4" />
-                              Editar y Re-encolar
-                            </Button>
-                          </DialogTrigger>
+                        <div className="flex gap-2">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleEdit(researcher)}
+                              >
+                                <Edit className="mr-2 h-4 w-4" />
+                                Editar y Re-encolar
+                              </Button>
+                            </DialogTrigger>
                           <DialogContent>
                             <DialogHeader>
                               <DialogTitle>Editar Investigador</DialogTitle>
@@ -191,6 +193,50 @@ export default function NotFoundSearches() {
                             </DialogFooter>
                           </DialogContent>
                         </Dialog>
+                        
+                        {/* Debug Logs Dialog */}
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setViewingLogs(search)}
+                            >
+                              <FileText className="mr-2 h-4 w-4" />
+                              Ver Logs
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                            <DialogHeader>
+                              <DialogTitle>Logs de Debug - {researcher.firstName} {researcher.lastName}</DialogTitle>
+                              <DialogDescription>
+                                Información capturada durante el scraping de ORCID
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="space-y-4">
+                              {search.debugInfo && (
+                                <div>
+                                  <h3 className="font-semibold mb-2">Información de Extracción</h3>
+                                  <pre className="bg-gray-100 p-4 rounded text-xs overflow-x-auto">
+                                    {search.debugInfo}
+                                  </pre>
+                                </div>
+                              )}
+                              {search.debugHtml && (
+                                <div>
+                                  <h3 className="font-semibold mb-2">HTML Capturado (primeros 5000 caracteres)</h3>
+                                  <pre className="bg-gray-100 p-4 rounded text-xs overflow-x-auto max-h-96">
+                                    {search.debugHtml}
+                                  </pre>
+                                </div>
+                              )}
+                              {!search.debugInfo && !search.debugHtml && (
+                                <p className="text-gray-600">No hay logs disponibles para esta búsqueda. Los logs se generan en búsquedas realizadas después de v1.0.27.</p>
+                              )}
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}

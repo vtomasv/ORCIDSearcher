@@ -126,6 +126,8 @@ const worker = new Worker<SearchJobData>(
         searchUrl: result.searchUrl,
         errorMessage: result.errorMessage,
         searchedAt: new Date(),
+        debugHtml: result.debugHtml,
+        debugInfo: result.debugInfo,
       });
       
       // Update progress

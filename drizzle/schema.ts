@@ -83,6 +83,14 @@ export const orcidSearches = mysqlTable("orcid_searches", {
   reviewedAt: timestamp("reviewedAt"),
   // Notes from manual review
   notes: text("notes"),
+  // Error message if search failed
+  errorMessage: text("errorMessage"),
+  // Timestamp of when search was performed
+  searchedAt: timestamp("searchedAt"),
+  // Debug: HTML snapshot of search results page (first 5000 chars)
+  debugHtml: text("debugHtml"),
+  // Debug: Structured logs as JSON (selectors found, IDs extracted, etc.)
+  debugInfo: text("debugInfo"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

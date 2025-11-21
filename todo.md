@@ -259,6 +259,17 @@
 ## Fase 32: Fix Scraper de ORCID - No Extrae Resultados
 - [x] Revisar orcidSearchWorker.ts para identificar selectores incorrectos
 - [x] Actualizar selectores para extraer tabla de resultados correctamente
-- [ ] Probar con caso de Raquel Abella López
+- [x] Probar con caso de Raquel Abella López
+- [x] Commit y push
+- [x] Crear release v1.0.26
+
+## Fase 33: Agregar Logs Detallados de Scraping para Debugging
+- [x] Agregar campo debugHtml a tabla orcid_searches
+- [x] Agregar campo debugInfo (JSON) para logs estructurados
+- [x] Actualizar schema (migración se ejecutará en Docker)
+- [x] Modificar orcidSearchWorker para capturar HTML de la página
+- [x] Guardar logs: selectores encontrados, ORCID IDs extraídos, contenido de tabla
+- [x] Mostrar logs en página NotFoundSearches
+- [x] Agregar botón "Ver Logs de Debug" en cada fila
 - [ ] Commit y push
-- [ ] Crear release v1.0.26
+- [ ] Crear release v1.0.27

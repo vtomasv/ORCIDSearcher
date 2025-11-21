@@ -6,6 +6,8 @@ interface SearchResult {
   status: 'found' | 'multiple' | 'not_found' | 'error';
   searchUrl: string;
   errorMessage?: string;
+  debugHtml?: string;
+  debugInfo?: string;
 }
 
 let browser: Browser | null = null;
@@ -70,11 +72,21 @@ async function searchOrcidOnPage(
     
     // Try to extract ORCID IDs from the results table
     // ORCID search results show a table with ORCID ID in the first column
-    const orcidIds = await page.evaluate(() => {
+    const extractionResult = await page.evaluate(() => {
       const results: string[] = [];
+      const debugLog: any = {
+        linksFound: 0,
+        cellsFound: 0,
+        orcidsFromLinks: [],
+        orcidsFromCells: [],
+        tableHtml: '',
+        bodyText: document.body.textContent?.substring(0, 500) || ''
+      };
       
       // Look for ORCID IDs in links (format: 0000-0001-2345-6789)
       const links = Array.from(document.querySelectorAll('a'));
+      debugLog.linksFound = links.length;
+      
       for (const link of links) {
         const href = link.getAttribute('href') || '';
         const text = link.textContent || '';
@@ -86,44 +98,73 @@ async function searchOrcidOnPage(
         
         if (hrefMatch) {
           results.push(hrefMatch[0]);
+          debugLog.orcidsFromLinks.push({ source: 'href', orcid: hrefMatch[0], href });
         } else if (textMatch) {
           results.push(textMatch[0]);
+          debugLog.orcidsFromLinks.push({ source: 'text', orcid: textMatch[0], text });
         }
       }
       
       // Also check table cells directly
       const cells = Array.from(document.querySelectorAll('td, th'));
+      debugLog.cellsFound = cells.length;
+      
       for (const cell of cells) {
         const text = cell.textContent || '';
         const match = text.match(/\d{4}-\d{4}-\d{4}-\d{3}[0-9X]/);
         if (match) {
           results.push(match[0]);
+          debugLog.orcidsFromCells.push({ orcid: match[0], cellText: text.substring(0, 100) });
         }
       }
       
-      return results;
+      // Capture table HTML if exists
+      const table = document.querySelector('table');
+      if (table) {
+        debugLog.tableHtml = table.outerHTML.substring(0, 2000);
+      }
+      
+      return { orcidIds: results, debugLog };
     });
+    
+    const orcidIds = extractionResult.orcidIds;
+    const debugLog = extractionResult.debugLog;
+    
+    // Capture HTML snapshot for debugging
+    const htmlSnapshot = content.substring(0, 5000);
     
     // Remove duplicates
     const uniqueOrcids = [...new Set(orcidIds)];
+    
+    console.log(`[ORCID Search Debug] URL: ${searchUrl}`);
+    console.log(`[ORCID Search Debug] Found ${uniqueOrcids.length} unique ORCID(s):`, uniqueOrcids);
+    console.log(`[ORCID Search Debug] Links found: ${debugLog.linksFound}, Cells found: ${debugLog.cellsFound}`);
+    console.log(`[ORCID Search Debug] ORCIDs from links:`, debugLog.orcidsFromLinks);
+    console.log(`[ORCID Search Debug] ORCIDs from cells:`, debugLog.orcidsFromCells);
     
     if (uniqueOrcids.length === 0) {
       return {
         orcid: null,
         status: 'not_found',
-        searchUrl
+        searchUrl,
+        debugHtml: htmlSnapshot,
+        debugInfo: JSON.stringify(debugLog, null, 2)
       };
     } else if (uniqueOrcids.length === 1) {
       return {
         orcid: uniqueOrcids[0],
         status: 'found',
-        searchUrl
+        searchUrl,
+        debugHtml: htmlSnapshot,
+        debugInfo: JSON.stringify(debugLog, null, 2)
       };
     } else {
       return {
         orcid: null,
         status: 'multiple',
-        searchUrl
+        searchUrl,
+        debugHtml: htmlSnapshot,
+        debugInfo: JSON.stringify({ ...debugLog, multipleOrcids: uniqueOrcids }, null, 2)
       };
     }
   } catch (error) {
