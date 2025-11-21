@@ -271,5 +271,12 @@
 - [x] Guardar logs: selectores encontrados, ORCID IDs extraídos, contenido de tabla
 - [x] Mostrar logs en página NotFoundSearches
 - [x] Agregar botón "Ver Logs de Debug" en cada fila
+- [x] Commit y push
+- [x] Crear release v1.0.27
+
+## Fase 34: Script de Migración Manual para Campos de Debugging
+- [x] Crear script SQL para agregar campos debugHtml, debugInfo, errorMessage, searchedAt
+- [x] Crear script Node.js migrate-debug-fields.mjs para ejecutar migración
+- [x] Documentar cómo ejecutar la migración
 - [ ] Commit y push
-- [ ] Crear release v1.0.27
+- [ ] Crear release v1.0.28
