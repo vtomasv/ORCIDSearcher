@@ -68,29 +68,29 @@ export const orcidSearches = mysqlTable("orcid_searches", {
   // Search status: pending, searching, found, multiple, not_found, manual
   status: mysqlEnum("status", ["pending", "searching", "found", "multiple", "not_found", "manual"]).default("pending").notNull(),
   // Final ORCID ID (if found or manually selected)
-  orcid: varchar("orcid", { length: 19 }), // Format: 0000-0001-2345-6789
+  orcid: varchar("orcid", { length: 19 }).default(null), // Format: 0000-0001-2345-6789
   // Number of results found in search
-  resultCount: int("resultCount").default(0),
+  resultCount: int("resultCount").default(0).notNull(),
   // Search URL that was used
-  searchUrl: text("searchUrl"),
+  searchUrl: text("searchUrl").default(null),
   // Strategy used: original, normalized, variant_1, etc.
-  strategyUsed: varchar("strategyUsed", { length: 50 }),
+  strategyUsed: varchar("strategyUsed", { length: 50 }).default(null),
   // For multiple results: store all found ORCIDs as JSON
-  multipleResults: text("multipleResults"),
+  multipleResults: text("multipleResults").default(null),
   // Manual review flag
-  needsReview: boolean("needsReview").default(false),
-  reviewedBy: int("reviewedBy"), // User ID who reviewed
-  reviewedAt: timestamp("reviewedAt"),
+  needsReview: boolean("needsReview").default(false).notNull(),
+  reviewedBy: int("reviewedBy").default(null), // User ID who reviewed
+  reviewedAt: timestamp("reviewedAt").default(null),
   // Notes from manual review
-  notes: text("notes"),
+  notes: text("notes").default(null),
   // Error message if search failed
-  errorMessage: text("errorMessage"),
+  errorMessage: text("errorMessage").default(null),
   // Timestamp of when search was performed
-  searchedAt: timestamp("searchedAt"),
+  searchedAt: timestamp("searchedAt").default(null),
   // Debug: HTML snapshot of search results page (first 5000 chars)
-  debugHtml: text("debugHtml"),
+  debugHtml: text("debugHtml").default(null),
   // Debug: Structured logs as JSON (selectors found, IDs extracted, etc.)
-  debugInfo: text("debugInfo"),
+  debugInfo: text("debugInfo").default(null),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

@@ -278,5 +278,13 @@
 - [x] Crear script SQL para agregar campos debugHtml, debugInfo, errorMessage, searchedAt
 - [x] Crear script Node.js migrate-debug-fields.mjs para ejecutar migración
 - [x] Documentar cómo ejecutar la migración
+- [x] Commit y push
+- [x] Crear release v1.0.28
+
+## Fase 35: Fix Schema para Migraciones Automáticas
+- [x] Revisar error de INSERT con valores default
+- [x] Corregir schema.ts para que campos opcionales tengan .default(null)
+- [x] Código de inserción ya estaba correcto (solo pasa campos necesarios)
+- [x] Eliminar script de migración manual (ya no necesario)
 - [ ] Commit y push
-- [ ] Crear release v1.0.28
+- [ ] Crear release v1.0.29
