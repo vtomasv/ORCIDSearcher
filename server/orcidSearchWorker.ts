@@ -46,14 +46,21 @@ async function searchOrcidOnPage(
     
     await page.goto(searchUrl, { waitUntil: 'networkidle2', timeout: 30000 });
     
-    // Wait for results to load
-    await page.waitForSelector('body', { timeout: 5000 });
+    // Wait for results to load - wait for either results table or "no results" message
+    try {
+      await Promise.race([
+        page.waitForSelector('table', { timeout: 10000 }),
+        page.waitForSelector('text/No results found', { timeout: 10000 }),
+      ]);
+    } catch (e) {
+      // Timeout waiting for results, check page content
+    }
     
     // Get page content
     const content = await page.content();
     
     // Check for "No results found" message
-    if (content.includes('No results found') || content.includes('No se encontraron resultados')) {
+    if (content.includes('No results found') || content.includes('No se encontraron resultados') || content.includes('Showing 0 of 0 results')) {
       return {
         orcid: null,
         status: 'not_found',
@@ -61,19 +68,44 @@ async function searchOrcidOnPage(
       };
     }
     
-    // Try to find ORCID IDs in the page
-    const orcidLinks = await page.$$eval('a[href*="orcid.org/"]', (links) => {
-      return links
-        .map(link => {
-          const href = link.getAttribute('href') || '';
-          const match = href.match(/orcid\.org\/(\d{4}-\d{4}-\d{4}-\d{3}[0-9X])/);
-          return match ? match[1] : null;
-        })
-        .filter(Boolean) as string[];
+    // Try to extract ORCID IDs from the results table
+    // ORCID search results show a table with ORCID ID in the first column
+    const orcidIds = await page.evaluate(() => {
+      const results: string[] = [];
+      
+      // Look for ORCID IDs in links (format: 0000-0001-2345-6789)
+      const links = Array.from(document.querySelectorAll('a'));
+      for (const link of links) {
+        const href = link.getAttribute('href') || '';
+        const text = link.textContent || '';
+        
+        // Match ORCID ID pattern in href or text
+        const orcidPattern = /\d{4}-\d{4}-\d{4}-\d{3}[0-9X]/;
+        const hrefMatch = href.match(orcidPattern);
+        const textMatch = text.match(orcidPattern);
+        
+        if (hrefMatch) {
+          results.push(hrefMatch[0]);
+        } else if (textMatch) {
+          results.push(textMatch[0]);
+        }
+      }
+      
+      // Also check table cells directly
+      const cells = Array.from(document.querySelectorAll('td, th'));
+      for (const cell of cells) {
+        const text = cell.textContent || '';
+        const match = text.match(/\d{4}-\d{4}-\d{4}-\d{3}[0-9X]/);
+        if (match) {
+          results.push(match[0]);
+        }
+      }
+      
+      return results;
     });
     
     // Remove duplicates
-    const uniqueOrcids = [...new Set(orcidLinks)];
+    const uniqueOrcids = [...new Set(orcidIds)];
     
     if (uniqueOrcids.length === 0) {
       return {

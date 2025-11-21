@@ -250,8 +250,15 @@
 - [x] Actualizar UI para reflejar estado de pausa
 
 ## Fase 31: Testing y Release v1.0.25
-- [ ] Probar vista de no encontrados
-- [ ] Probar corrección y re-encolado
-- [ ] Probar detener y reanudar búsqueda
+- [x] Probar vista de no encontrados
+- [x] Probar corrección y re-encolado
+- [x] Probar detener y reanudar búsqueda
+- [x] Commit y push
+- [x] Crear release v1.0.25
+
+## Fase 32: Fix Scraper de ORCID - No Extrae Resultados
+- [x] Revisar orcidSearchWorker.ts para identificar selectores incorrectos
+- [x] Actualizar selectores para extraer tabla de resultados correctamente
+- [ ] Probar con caso de Raquel Abella López
 - [ ] Commit y push
-- [ ] Crear release v1.0.25
+- [ ] Crear release v1.0.26
