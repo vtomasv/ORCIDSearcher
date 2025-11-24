@@ -307,5 +307,13 @@
 - [x] Revisar por qué .default(null) causa que Drizzle genere SQL con 'default'
 - [x] Eliminar .default(null) de campos opcionales en schema
 - [x] Dejar campos opcionales sin .default() ni .notNull()
+- [x] Commit y push
+- [x] Crear release v1.0.32
+
+## Fase 39: Generar Nuevas Migraciones de Drizzle
+- [x] Revisar migraciones existentes en drizzle/ (0001 tiene schema antiguo)
+- [x] Crear migración manual 0003_add_debug_fields.sql
+- [x] Crear script de verificación de schema (verify-schema.mjs)
+- [x] Agregar nueva migración a migrate.mjs
 - [ ] Commit y push
-- [ ] Crear release v1.0.32
+- [ ] Crear release v1.0.33

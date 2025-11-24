@@ -38,7 +38,8 @@ async function runMigrations() {
     // Manually run additional SQL migrations that aren't in the journal
     const migrationsDir = path.join(__dirname, '..', 'drizzle');
     const manualMigrations = [
-      '0002_add_upload_session_id.sql'
+      '0002_add_upload_session_id.sql',
+      '0003_add_debug_fields.sql'
     ];
     
     for (const migrationFile of manualMigrations) {
@@ -64,6 +65,10 @@ async function runMigrations() {
               // Ignore "Duplicate key name" errors (index already exists)
               else if (error.code === 'ER_DUP_KEYNAME') {
                 console.log(`[Migration] ⊙ Index already exists, skipping`);
+              }
+              // Ignore "Duplicate entry" errors (data already exists)
+              else if (error.code === 'ER_DUP_ENTRY') {
+                console.log(`[Migration] ⊙ Entry already exists, skipping`);
               } else {
                 throw error;
               }
