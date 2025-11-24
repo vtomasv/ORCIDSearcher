@@ -131,6 +131,92 @@ export const appRouter = router({
         };
       }),
     
+    // Process uploaded Excel file with simple format (Full Name, Email, Country, Universidad)
+    processSimpleExcel: protectedProcedure
+      .input(z.object({
+        fileData: z.string(), // Base64 encoded Excel file
+        filename: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const userId = ctx.user.id;
+        
+        // Decode base64 to buffer
+        const buffer = Buffer.from(input.fileData, 'base64');
+        
+        // Parse Excel
+        const workbook = XLSX.read(buffer, { type: 'buffer' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        
+        // Convert to JSON
+        const data = XLSX.utils.sheet_to_json(worksheet) as any[];
+        
+        // Filter valid rows (must have Full Name)
+        const validRows = data.filter(row => row['Full Name']);
+        
+        // Create upload session
+        const sessionId = await createUploadSession({
+          userId,
+          filename: input.filename,
+          totalResearchers: validRows.length,
+          processedCount: 0,
+          foundCount: 0,
+          multipleCount: 0,
+          notFoundCount: 0,
+          status: 'processing',
+        });
+        
+        // Get institutions data
+        const institutionsData = await getAllInstitutions();
+        
+        // Create researchers and initial search records
+        for (const row of validRows) {
+          const fullName = String(row['Full Name'] || '').trim();
+          const email = String(row['Email'] || '').trim();
+          const country = String(row['Country'] || '').trim();
+          const institution = String(row['Universidad'] || '').trim();
+          
+          // Split full name into first and last name
+          // Assume last word is last name, rest is first name
+          const nameParts = fullName.split(' ').filter(part => part.length > 0);
+          let firstName = '';
+          let lastName = '';
+          
+          if (nameParts.length === 1) {
+            lastName = nameParts[0];
+          } else if (nameParts.length >= 2) {
+            lastName = nameParts[nameParts.length - 1];
+            firstName = nameParts.slice(0, -1).join(' ');
+          }
+          
+          const researcherId = await createResearcher({
+            userId,
+            uploadSessionId: sessionId,
+            firstName,
+            lastName,
+            firstNameNormalized: normalizeText(firstName),
+            lastNameNormalized: normalizeText(lastName),
+            institution,
+            email,
+            country,
+            originalData: JSON.stringify(row),
+          });
+          
+          // Create initial ORCID search record
+          const searchUrl = buildOrcidSearchUrl(firstName, lastName, institution);
+          
+          await createOrcidSearch({
+            researcherId,
+            searchUrl,
+          });
+        }
+        
+        return {
+          sessionId,
+          totalResearchers: validRows.length,
+        };
+      }),
+    
     // Get all upload sessions for current user
     getSessions: protectedProcedure.query(async ({ ctx }) => {
       return await getUploadSessionsByUser(ctx.user.id);

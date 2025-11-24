@@ -350,5 +350,15 @@
 - [x] Mostrar logs de debugging
 - [x] Agregar ruta en App.tsx
 - [x] Agregar botón "Ver Múltiples" en Dashboard
+- [x] Commit y push
+- [x] Crear release v1.0.37
+
+## Fase 44: Menú de Carga Alternativo para Formato Simplificado
+- [x] Analizar estructura del nuevo Excel (Full Name, Email, Country, Universidad)
+- [x] Crear endpoint backend processSimpleExcel para procesar nuevo formato
+- [x] Mapear campos: Full Name → firstName/lastName, Universidad → institution
+- [x] Crear página UploadSimple.tsx para subir archivos con formato alternativo
+- [x] Agregar opción en menú principal para elegir tipo de carga
+- [x] Probar carga y búsqueda con nuevo formato
 - [ ] Commit y push
-- [ ] Crear release v1.0.37
+- [ ] Crear release v1.0.38

@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Upload from "./pages/Upload";
+import UploadSimple from "./pages/UploadSimple";
 import Dashboard from "./pages/Dashboard";
 import Review from "./pages/Review";
 import NotFoundSearches from "./pages/NotFoundSearches";
@@ -16,6 +17,7 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/upload"} component={Upload} />
+      <Route path={"/upload-simple"} component={UploadSimple} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/review"} component={Review} />
       <Route path={"/not-found-searches"} component={NotFoundSearches} />

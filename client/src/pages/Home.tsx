@@ -90,12 +90,23 @@ export default function Home() {
 
         {/* CTA */}
         <div className="text-center">
-          <Link href="/upload">
-            <Button size="lg" className="text-lg px-8 py-6">
-              <Upload className="mr-2 h-5 w-5" />
-              Comenzar Ahora
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
+            <Link href="/upload">
+              <Button size="lg" className="text-lg px-8 py-6">
+                <Upload className="mr-2 h-5 w-5" />
+                Formato Completo
+              </Button>
+            </Link>
+            <Link href="/upload-simple">
+              <Button size="lg" variant="outline" className="text-lg px-8 py-6">
+                <FileSpreadsheet className="mr-2 h-5 w-5" />
+                Formato Simplificado
+              </Button>
+            </Link>
+          </div>
+          <p className="text-sm text-gray-500 mb-4">
+            Elige el formato que coincida con tu archivo Excel
+          </p>
           <div className="mt-4">
             <Link href="/dashboard">
               <Button variant="outline" size="lg" className="text-lg px-8 py-6">
