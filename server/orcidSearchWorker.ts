@@ -69,7 +69,7 @@ async function searchOrcidOnPage(
     }
     
     // Additional wait for table to be fully rendered
-    await page.waitForTimeout(2000);
+    await new Promise(resolve => setTimeout(resolve, 2000));
     
     // Get page content
     const content = await page.content();

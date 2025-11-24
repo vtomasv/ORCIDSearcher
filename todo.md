@@ -325,5 +325,10 @@
 - [x] Agregar wait adicional de 2 segundos para renderizado
 - [x] Mejorar captura de debugHtml (capturar siempre, no solo en error)
 - [x] Agregar logs detallados de cada paso
+- [x] Commit y push
+- [x] Crear release v1.0.34
+
+## Fase 41: Fix waitForTimeout Deprecado
+- [x] Reemplazar page.waitForTimeout por new Promise(resolve => setTimeout)
 - [ ] Commit y push
-- [ ] Crear release v1.0.34
+- [ ] Crear release v1.0.35
