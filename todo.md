@@ -300,5 +300,12 @@
 - [x] Revisar código de inserción en routers.ts
 - [x] Identificar por qué Drizzle genera SQL con 'default' (pasaba valores por defecto explícitamente)
 - [x] Eliminar campos con valores por defecto del objeto de inserción
+- [x] Commit y push
+- [x] Crear release v1.0.31
+
+## Fase 38: Fix Drizzle Generando SQL con 'default'
+- [x] Revisar por qué .default(null) causa que Drizzle genere SQL con 'default'
+- [x] Eliminar .default(null) de campos opcionales en schema
+- [x] Dejar campos opcionales sin .default() ni .notNull()
 - [ ] Commit y push
-- [ ] Crear release v1.0.31
+- [ ] Crear release v1.0.32
