@@ -18,6 +18,8 @@ import {
   createInstitution,
   getResearchersByUser,
   getNotFoundSearches,
+  getMultipleSearches,
+  selectCorrectOrcid,
   updateResearcherAndRequeue
 } from "./db";
 import { normalizeText, getInstitutionVariants, buildOrcidSearchUrl } from "./utils";
@@ -173,6 +175,22 @@ export const appRouter = router({
     getNotFound: protectedProcedure.query(async ({ ctx }) => {
       return await getNotFoundSearches(ctx.user.id);
     }),
+    
+    // Get multiple searches with details
+    getMultiple: protectedProcedure.query(async ({ ctx }) => {
+      return await getMultipleSearches(ctx.user.id);
+    }),
+    
+    // Select correct ORCID from multiple results
+    selectOrcid: protectedProcedure
+      .input(z.object({
+        searchId: z.number(),
+        orcid: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        await selectCorrectOrcid(input.searchId, input.orcid);
+        return { success: true, message: 'ORCID seleccionado correctamente' };
+      }),
     
     // Update researcher and requeue for search
     updateAndRequeue: protectedProcedure

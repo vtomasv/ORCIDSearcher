@@ -337,5 +337,18 @@
 - [x] Eliminar verificación prematura de "No results found"
 - [x] Dejar que el código siempre intente extraer ORCIDs
 - [x] Marcar como not_found solo si no se encuentra ningún ORCID (ya estaba implementado)
+- [x] Commit y push
+- [x] Crear release v1.0.36
+
+## Fase 43: Página de Múltiples Resultados con Selección
+- [x] Crear endpoint para obtener búsquedas con múltiples resultados
+- [x] Crear endpoint para seleccionar ORCID correcto de la lista
+- [x] Múltiples ORCIDs ya se guardan en debugInfo.multipleOrcids
+- [x] Crear página MultipleResults.tsx similar a NotFoundSearches
+- [x] Mostrar lista de ORCIDs encontrados con botón "Seleccionar"
+- [x] Permitir editar datos y re-encolar
+- [x] Mostrar logs de debugging
+- [x] Agregar ruta en App.tsx
+- [x] Agregar botón "Ver Múltiples" en Dashboard
 - [ ] Commit y push
-- [ ] Crear release v1.0.36
+- [ ] Crear release v1.0.37

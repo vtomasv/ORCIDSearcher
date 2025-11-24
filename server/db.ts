@@ -285,6 +285,48 @@ export async function getNotFoundSearches(userId: number) {
 }
 
 /**
+ * Get all "multiple" searches with researcher details
+ */
+export async function getMultipleSearches(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select({
+    search: orcidSearches,
+    researcher: researchers
+  })
+  .from(orcidSearches)
+  .innerJoin(researchers, eq(orcidSearches.researcherId, researchers.id))
+  .where(
+    and(
+      eq(researchers.userId, userId),
+      eq(orcidSearches.status, 'multiple')
+    )
+  );
+}
+
+/**
+ * Select the correct ORCID from multiple results
+ */
+export async function selectCorrectOrcid(
+  searchId: number,
+  selectedOrcid: string
+) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  await db.update(orcidSearches)
+    .set({
+      orcid: selectedOrcid,
+      status: 'found',
+      multipleResults: null,
+      needsReview: false,
+      updatedAt: new Date()
+    })
+    .where(eq(orcidSearches.id, searchId));
+}
+
+/**
  * Update researcher data and reset search status to pending
  */
 export async function updateResearcherAndRequeue(

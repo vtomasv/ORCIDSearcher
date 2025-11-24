@@ -224,13 +224,21 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 flex-wrap">
                     <Link href="/review">
                       <Button variant="outline" size="sm">
                         <Eye className="mr-2 h-4 w-4" />
                         Revisar Casos Pendientes
                       </Button>
                     </Link>
+                    {(progress?.multiple || session.multipleCount) > 0 && (
+                      <Link href="/multiple-results">
+                        <Button variant="outline" size="sm">
+                          <AlertCircle className="mr-2 h-4 w-4" />
+                          Ver Múltiples ({progress?.multiple || session.multipleCount})
+                        </Button>
+                      </Link>
+                    )}
                     {(progress?.notFound || session.notFoundCount) > 0 && (
                       <Link href="/not-found-searches">
                         <Button variant="outline" size="sm">

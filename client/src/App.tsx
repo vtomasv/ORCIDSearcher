@@ -9,6 +9,7 @@ import Upload from "./pages/Upload";
 import Dashboard from "./pages/Dashboard";
 import Review from "./pages/Review";
 import NotFoundSearches from "./pages/NotFoundSearches";
+import MultipleResults from "./pages/MultipleResults";
 
 function Router() {
   return (
@@ -18,6 +19,7 @@ function Router() {
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/review"} component={Review} />
       <Route path={"/not-found-searches"} component={NotFoundSearches} />
+      <Route path={"/multiple-results"} component={MultipleResults} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
