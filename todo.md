@@ -330,5 +330,12 @@
 
 ## Fase 41: Fix waitForTimeout Deprecado
 - [x] Reemplazar page.waitForTimeout por new Promise(resolve => setTimeout)
+- [x] Commit y push
+- [x] Crear release v1.0.35
+
+## Fase 42: Fix Lógica de Detección de Resultados
+- [x] Eliminar verificación prematura de "No results found"
+- [x] Dejar que el código siempre intente extraer ORCIDs
+- [x] Marcar como not_found solo si no se encuentra ningún ORCID (ya estaba implementado)
 - [ ] Commit y push
-- [ ] Crear release v1.0.35
+- [ ] Crear release v1.0.36

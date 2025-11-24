@@ -78,18 +78,6 @@ async function searchOrcidOnPage(
     // Capture HTML snapshot for debugging (always, not just on error)
     const htmlSnapshot = content.substring(0, 5000);
     
-    // Check for "No results found" message
-    if (content.includes('No results found') || content.includes('No se encontraron resultados') || content.includes('Showing 0 of 0 results')) {
-      console.log(`[ORCID Worker] No results found message detected`);
-      return {
-        orcid: null,
-        status: 'not_found',
-        searchUrl,
-        debugHtml: htmlSnapshot,
-        debugInfo: JSON.stringify({ message: 'No results found in page content' }, null, 2)
-      };
-    }
-    
     // Try to extract ORCID IDs from the results table
     // ORCID search results show a table with ORCID ID in the first column
     const extractionResult = await page.evaluate(() => {
