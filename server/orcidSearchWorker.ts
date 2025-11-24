@@ -45,28 +45,48 @@ async function searchOrcidOnPage(
 ): Promise<SearchResult> {
   try {
     const searchUrl = buildSearchUrl(firstName, lastName, institution);
+    console.log(`[ORCID Worker] Navigating to: ${searchUrl}`);
     
-    await page.goto(searchUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+    // Navigate with longer timeout
+    await page.goto(searchUrl, { waitUntil: 'networkidle2', timeout: 60000 });
+    console.log(`[ORCID Worker] Page loaded, waiting for results...`);
     
-    // Wait for results to load - wait for either results table or "no results" message
+    // Wait for results to load - wait for the results count text to appear
     try {
-      await Promise.race([
-        page.waitForSelector('table', { timeout: 10000 }),
-        page.waitForSelector('text/No results found', { timeout: 10000 }),
-      ]);
+      // Wait for either "Showing X of Y results" or "No results found"
+      await page.waitForFunction(
+        () => {
+          const bodyText = document.body.textContent || '';
+          return bodyText.includes('Showing') || 
+                 bodyText.includes('No results found') ||
+                 bodyText.includes('No se encontraron resultados');
+        },
+        { timeout: 30000 }
+      );
+      console.log(`[ORCID Worker] Results loaded`);
     } catch (e) {
-      // Timeout waiting for results, check page content
+      console.warn(`[ORCID Worker] Timeout waiting for results indicator, proceeding anyway`);
     }
+    
+    // Additional wait for table to be fully rendered
+    await page.waitForTimeout(2000);
     
     // Get page content
     const content = await page.content();
+    console.log(`[ORCID Worker] Page content length: ${content.length} chars`);
+    
+    // Capture HTML snapshot for debugging (always, not just on error)
+    const htmlSnapshot = content.substring(0, 5000);
     
     // Check for "No results found" message
     if (content.includes('No results found') || content.includes('No se encontraron resultados') || content.includes('Showing 0 of 0 results')) {
+      console.log(`[ORCID Worker] No results found message detected`);
       return {
         orcid: null,
         status: 'not_found',
-        searchUrl
+        searchUrl,
+        debugHtml: htmlSnapshot,
+        debugInfo: JSON.stringify({ message: 'No results found in page content' }, null, 2)
       };
     }
     
@@ -130,9 +150,6 @@ async function searchOrcidOnPage(
     const orcidIds = extractionResult.orcidIds;
     const debugLog = extractionResult.debugLog;
     
-    // Capture HTML snapshot for debugging
-    const htmlSnapshot = content.substring(0, 5000);
-    
     // Remove duplicates
     const uniqueOrcids = [...new Set(orcidIds)];
     
@@ -168,12 +185,24 @@ async function searchOrcidOnPage(
       };
     }
   } catch (error) {
-    console.error('Error searching ORCID:', error);
+    console.error('[ORCID Worker] Error searching ORCID:', error);
+    
+    // Try to capture HTML even on error
+    let htmlSnapshot = null;
+    try {
+      const content = await page.content();
+      htmlSnapshot = content.substring(0, 5000);
+    } catch (e) {
+      console.error('[ORCID Worker] Could not capture HTML on error');
+    }
+    
     return {
       orcid: null,
       status: 'error',
       searchUrl: buildSearchUrl(firstName, lastName, institution),
-      errorMessage: error instanceof Error ? error.message : 'Unknown error'
+      errorMessage: error instanceof Error ? error.message : 'Unknown error',
+      debugHtml: htmlSnapshot,
+      debugInfo: JSON.stringify({ error: error instanceof Error ? error.stack : String(error) }, null, 2)
     };
   }
 }

@@ -315,5 +315,15 @@
 - [x] Crear migración manual 0003_add_debug_fields.sql
 - [x] Crear script de verificación de schema (verify-schema.mjs)
 - [x] Agregar nueva migración a migrate.mjs
+- [x] Commit y push
+- [x] Crear release v1.0.33
+
+## Fase 40: Fix Scraper - Esperar Carga de Resultados
+- [x] Revisar orcidSearchWorker.ts
+- [x] Agregar page.waitForFunction para esperar texto "Showing"
+- [x] Aumentar timeout de page.goto a 60 segundos
+- [x] Agregar wait adicional de 2 segundos para renderizado
+- [x] Mejorar captura de debugHtml (capturar siempre, no solo en error)
+- [x] Agregar logs detallados de cada paso
 - [ ] Commit y push
-- [ ] Crear release v1.0.33
+- [ ] Crear release v1.0.34
